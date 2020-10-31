@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>资产管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <style>
+        .layui-form-item {
+            margin-bottom: 0px;
+        }
+
+        .layui-inline {
+            margin-bottom: 5px;
+            margin-right: -10px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+
+            <fieldset class="table-search-fieldset">
+                <legend>搜索信息</legend>
+                <div style="margin: 10px 10px 10px 10px">
+                    <form class="layui-form layui-form-pane" action="" lay-filter="searchForm">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">资产名称</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="assetName" id="assetName" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">运维单位</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="maintenanceUnit" id="maintenanceUnit" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">资产类型</label>
+                                <div class="layui-input-inline">
+                                    <select name="assetType" lay-filter="assetType">
+                                        <option value="">请选择资产类型</option>
+                                        <option value="硬件">硬件</option>
+                                        <option value="软件">软件</option>
+                                        <option value="备品备件">备品备件</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">资产状态</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="assetState" id="assetState" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">维修情况</label>
+                                <div class="layui-input-inline">
+                                    <select name="interest" lay-filter="aihao">
+                                        <option value="">请选择维修情况</option>
+                                        <option value="0">有</option>
+                                        <option value="1">无</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </fieldset>
+
+            <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+               
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+                <a id="importFile" class="layui-btn layui-btn-sm" style="margin-left: 0px;">导入 </a>
+            </div>
+        </script>
+
+            <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+            <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="check">核查</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+
+        </div>
+    </div>
+    <script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script>
+        var json;//传值
+        layui.use(['form', 'table', 'tableSelect', 'upload'], function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                table = layui.table,
+                tableSelect = layui.tableSelect,
+            upload = layui.upload;
+
+            tableSelect.render({
+                elem: '#demo',
+                searchKey: 'my',
+                checkedKey: 'id',
+                searchPlaceholder: '自定义文字和name',
+                table: {
+                    url: '../api/tableSelect_project.json',
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'id', title: '项目', width: "100%" },
+                    ]]
+                },
+                done: function (elem, data) {
+                    var NEWJSON = []
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.id)
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+            })
+
+            table.render({
+                elem: '#currentTableId',
+                url: '/management/asset/selectAll',
+                toolbar: '#toolbarDemo',
+                defaultToolbar: ['filter', 'exports', 'print', {
+                    title: '提示',
+                    layEvent: 'LAYTABLE_TIPS',
+                    icon: 'layui-icon-tips'
+                }],
+                cols: [[
+                    { type: "checkbox",width: "5%"},
+                    { field: 'assetId', width: "5%", title: 'id',hide:false},
+                    { field: 'assetNumber', width: "5%", title: '编号'},
+                    { field: 'assetName', width: "10%", title: '资产名称'},
+                    { field: 'assetBrand', width: "10%", title: '品牌型号', sort: true},
+                    { field: 'assetType', width: "10%", title: '资产类型', sort: true},
+                    { field: 'maintenanceUnit', width: "10%", title: '运维单位'},
+                    { field: 'projectId', width: "15%", title: '项目名称'},
+                    { field: 'quantity', width: "10%", title: '单位数量'},
+                    { field: 'assetState', width: "10%", title: '资产状态'},
+                    { title: '操作', width: "15%", toolbar: '#currentTableBar', align: "center" }
+                ]],
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 15,
+                page: true,
+                skin: 'line'
+            });
+
+            // 监听搜索操作
+            form.on('submit(data-search-btn)', function (data) {
+                var result = JSON.stringify(data.field);
+                // layer.alert(result, {
+                //     title: '最终的搜索信息'
+                // });
+                //表格重载
+                table.reload('currentTableId', {
+                    url:"/management/asset/selectByQuery",
+                    where:form.val("searchForm"),
+                    page: {
+                        curr: 1
+                    }
+                }, 'data');
+                return false;
+            });
+            /**
+             * toolbar监听事件
+             */
+            table.on('toolbar(currentTableFilter)', function (obj) {
+                if (obj.event === 'add') {  // 监听添加操作
+                    var index = layer.open({
+                        title: '添加资产',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/add-assets-msg.html',
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                } else if (obj.event === 'delete') {  // 监听删除操作
+                    var checkStatus = table.checkStatus('currentTableId')
+                        , data = checkStatus.data;
+                    var $data = $(data)
+                    var res = new Array();
+                    $data.each(function (index) {
+                        res[index] = $(this)[0].assetId
+                    })
+                    $.post("/management/asset/deleteBatchIds",{"idList":res},function (r) {
+                        console.log(r);
+                        if (r.code == 0){
+                            layer.msg("删除成功",function () {
+                                table.reload('currentTableId')
+                            })
+                        }else{
+                            layer.msg("删除失败",function () {
+                                table.reload('currentTableId')
+                            })
+                        }
+                    });
+                }
+            });
+            //监听表格复选框选择
+            table.on('checkbox(currentTableFilter)', function (obj) {
+                console.log(obj)
+            });
+            table.on('tool(currentTableFilter)', function (obj) {
+                var data = obj.data;
+                json = JSON.stringify(data);
+                if (obj.event === 'edit') {
+                    var index = layer.open({
+                        title: '编辑资产信息',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/edit-assets-msg.html'+'?assetId='+data.assetId,
+                        success:function (layero,index) {
+
+                        }
+
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                    return false;
+                } else if (obj.event === 'delete') {
+                    layer.confirm('真的删除行么', function (index) {
+                        obj.del();
+                        layer.close(index);
+                    });
+                } else if (obj.event === 'check') {
+                    var index = layer.open({
+                        title: '指标核查',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/check-assets-msg.html',
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                    return false;
+                }
+            });
+            //指定允许上传的文件类型
+            upload.render({
+                elem: '#importFile'
+                , url: '/management/asset/upload' //改成您自己的上传接口
+                , accept: 'file' //普通文件
+                , done: function (res) {
+                    layer.msg('上传成功');
+                    console.log(res);
+                }
+            });
+        });
+
+
+    </script>
+
+</body>
+
+</html>

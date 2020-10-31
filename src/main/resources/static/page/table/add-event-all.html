@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <!-- 引入腾讯地图API -->
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=IGOBZ-P2JRP-GCVDW-LEVEL-QK5XF-KBFVT"></script>
+    <style type="text/css">
+        .layui-form-item .layui-input-inline {
+            width: 300px;
+        }
+
+        .layui-inline {
+            margin-right: 100px;
+        }
+
+        fieldset {
+            width: 85%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form" action="">
+            <fieldset class="layui-elem-field" id="orderInformation">
+                <legend>报单信息</legend>
+                <div class="layui-field-box">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">项目编号</label>
+                            <div class="layui-input-inline">
+                                <input type="tel" id="projectId" name="projectId" autocomplete="off"
+                                       class="layui-input" value="" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">地址</label>
+                                <div class="layui-input-inline">
+                                    <input type="tel" id="address" name="address" autocomplete="off" class="layui-input"
+                                        value="" disabled>
+                                </div>
+                            </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">片区</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="faultArea" autocomplete="off" class="layui-input" disabled>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">报单时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="date" name="reportTime" autocomplete="off"
+                                       class="layui-input" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="layui-form-item" style="width:1280px;">
+                            <label class="layui-form-label">事件描述</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="defectDes" placeholder="" autocomplete="off"
+                                    class="layui-input" disabled>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">报单紧急度</label>
+                                <div class="layui-input-inline">
+                                    <select name="faultUrgency" disabled>
+                                        <option value=""></option>
+                                        <option value="危急故障－1小时内">危急故障－1小时内</option>
+                                        <option value="紧急故障－4小时内" selected="">紧急故障－4小时内</option>
+                                        <option value="重要故障－8小时内" selected="">重要故障－8小时内</option>
+                                        <option value="一般故障－12小时内" selected="">一般故障－12小时内</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">事件类型</label>
+                                <div class="layui-input-inline">
+                                    <select name="reportingMethod" disabled>
+                                        <option value="">事件类型</option>
+                                        <option value="故障处理" selected="">故障处理</option>
+                                        <option value="变更管理">变更管理</option>
+                                        <option value="备品备件">备品备件</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">报单分类</label>
+                                <div class="layui-input-inline">
+                                    <select name="faultClassification" disabled>
+                                        <option value="">故障分类</option>
+                                        <option value="前端设备故障" selected="">前端设备故障</option>
+                                        <option value="网络故障">网络故障</option>
+                                        <option value="链路故障">链路故障</option>
+                                        <option value="应用系统故障">应用系统故障</option>
+                                        <option value="硬件系统故障">硬件系统故障</option>
+                                        <option value="机房环境故障">机房环境故障</option>
+                                        <option value="基础设施故障">基础设施故障</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item" style="width: 1280px;">
+                            <label class="layui-form-label">图片上传</label>
+                            <div class="layui-upload">
+                                <button type="button" class="layui-btn layui-btn-disabled" id="test3" disabled>图片上传</button>
+                                <blockquote class="layui-elem-quote layui-quote-nm"
+                                    style="margin-top: 10px;width: 1135px;margin-left: 8.5%;">
+                                    预览图：
+                                    <div class="layui-upload-list" id="demo2"></div>
+                                </blockquote>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <!--使用隐藏域储存id 对修改有意义-->
+                            <div class="layui-inline" style="display: none">
+                                <label class="layui-form-label">报单人id</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="reporterId" placeholder="" autocomplete="off"
+                                        class="layui-input" disabled>
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">报单人</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="reporterName" placeholder="" autocomplete="off"
+                                        class="layui-input" disabled>
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">联系电话</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="reporterPhone" placeholder="" autocomplete="off"
+                                        class="layui-input" disabled>
+                                </div>
+                            </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">报单单位</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="unit" name="reporterCompany" placeholder=""
+                                       autocomplete="off" class="layui-input" disabled>
+                            </div>
+                        </div>
+                    </div>
+            </fieldset>
+
+            <fieldset class="layui-elem-field" id="dispatchInformation">
+                <legend>派单信息</legend>
+                <div class="layui-field-box">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">派单人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="maintenanceName" placeholder="" autocomplete="off"
+                                       class="layui-input" disabled>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">联系电话</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="maintenancePhone" placeholder="" autocomplete="off"
+                                       class="layui-input" disabled>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">派单单位</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="unit1" name="maintenanceCompany" placeholder=""
+                                       autocomplete="off" class="layui-input" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="layui-elem-field" id="caseInformation">
+                <legend>结案信息</legend>
+                <div class="layui-field-box">
+                    <div class="layui-form-item" style="width:1280px;">
+                        <label class="layui-form-label">事件分析</label>
+                        <div class="layui-input-block">
+                            <textarea placeholder="请输入内容" name="processingDescription" class="layui-textarea"
+                                      disabled></textarea>
+                        </div>
+                    </div>
+
+                    <!-- <div class="layui-form-item" style="width:1280px;">
+                    <label class="layui-form-label">处理方法</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="identity" lay-verify="identity" placeholder=""
+                            autocomplete="off" class="layui-input" disabled>
+                    </div>
+                </div> -->
+
+                    <div class="layui-form-item" style="width: 1280px;">
+                        <label class="layui-form-label">图片上传</label>
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn layui-btn-disabled" id="test4" disabled>图片上传</button>
+                            <blockquote class="layui-elem-quote layui-quote-nm"
+                                        style="margin-top: 10px;width: 1135px;margin-left: 8.5%;">
+                                预览图：
+                                <div class="layui-upload-list" id="demo3"></div>
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">处理单位</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="unit2" name="processorCompany" placeholder="" autocomplete="off"
+                                       class="layui-input" disabled>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">审核人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="processorName" placeholder="" autocomplete="off"
+                                       class="layui-input" disabled>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">审核人电话</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="processorPhone" placeholder="" autocomplete="off"
+                                       class="layui-input" disabled>
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="margin-top: 10px;">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">使用备件</label>
+                                <div class="layui-input-inline">
+                                    <select name="interest" lay-filter="usebeipin" disabled>
+                                        <option value="">使用备品备件</option>
+                                        <option value="0" selected="">否</option>
+                                        <option value="1">是</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 备品备件div -->
+                    <div class="layui-form-item" id="beipin" style="display: none;">
+                        <div style="display: inline-block;" class="beijian">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">备件名称</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="beijianmingcheng" name="identity" placeholder=""
+                                           autocomplete="off" class="layui-input" disabled>
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">数量</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="identity" placeholder="" autocomplete="off"
+                                           class="layui-input" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">追加备件</label>
+                            <div class="layui-input-inline">
+                                <button type="button" class="layui-btn" id="zhuijia" disabled>继续增加</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </fieldset>
+
+            <fieldset class="layui-elem-field" id="evaluationInformation">
+                <legend>评价信息</legend>
+                <div class="layui-field-box">
+                    <div class="layui-form-item" style="width:1280px;">
+                        <label class="layui-form-label">评价意见</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="comment" placeholder="" autocomplete="off" class="layui-input"
+                                   disabled>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">等级</label>
+                        <div class="layui-input-block" style="bottom: 5px;">
+                            <div id="rate1"></div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="layui-form-item">
+                <div id="mapContainer" style="width:85%;height: 400px;margin:0 auto;"></div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <a id="savaBtn" class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">提交</a>
+                    <a class="layui-btn layui-btn-normal">返回</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</body>
+<script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['form', 'layedit', 'laydate', 'upload', 'rate', 'jquery', 'tableSelect'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate
+            , upload = layui.upload
+            , rate = layui.rate
+            , tableSelect = layui.tableSelect
+            , $ = layui.jquery;
+
+
+        //监听备品备件下拉框 做到备品备件部分显示与隐藏
+        form.on('select(usebeipin)', function (data) {
+
+            console.log(data.value); //得到被选中的值
+            if (data.value == 0) {
+                $('#beipin').css("display", "none")
+            } else if (data.value == 1) {
+                $('#beipin').css("display", "inline")
+            }
+        });
+
+        function closeLayer(index) {
+            //先得到当前iframe层的索引
+            parent.layer.close(index)
+        }
+
+        form.on('submit(saveBtn)', function (data) {
+            var index = parent.layer.getFrameIndex(window.name);
+            console.log(data.field)
+            //修改表单状态
+            data.field.status = 1
+            data.field.companyName = data.field.reporterCompany
+            $.post('/management/events/f/create', data.field, function (res) {
+                if (res.data == true) {
+                    layer.open({
+                        type: 0,
+                        content: "添加成功",
+                        yes: function () {
+                            closeLayer(index)
+                        }
+                    })
+                } else {
+                    layer.open({
+                        type: 0,
+                        content: res.message,
+                        yes: function () {
+                            closeLayer(index)
+                        }
+                    })
+                }
+            })
+        })
+
+        form.on('submit(submitBtn)', function (data) {
+            var index = parent.layer.getFrameIndex(window.name);
+            console.log(data.field)
+            //修改表单状态
+            data.field.status = 1
+            data.field.id = getUrlParam("id")
+            $.post('/management/events/f/update', data.field, function (res) {
+                if (res.data == true) {
+                    layer.open({
+                        type: 0,
+                        content: "编辑成功",
+                        yes: function () {
+                            closeLayer(index)
+                        }
+                    })
+                } else {
+                    layer.open({
+                        type: 0,
+                        content: res.msg,
+                        yes: function () {
+                            closeLayer(index)
+                        }
+                    })
+                }
+            })
+        })
+
+        form.on('submit(dispatchBtn)', function (data) {
+            var index = parent.layer.getFrameIndex(window.name);
+            console.log(data.field)
+            //修改表单状态
+            data.field.status = 2
+            data.field.id = getUrlParam("id")
+            $.post('/management/events/f/dispatch', data.field, function (res) {
+                if (res.data == true) {
+                    layer.open({
+                        type: 0,
+                        content: "派单成功",
+                        yes: function () {
+                            closeLayer(index)
+                        }
+                    })
+                } else {
+                    layer.open({
+                        type: 0,
+                        content: res.msg,
+                        yes: function () {
+                            closeLayer(index)
+                        }
+                    })
+                }
+            })
+        })
+
+        //事件结案 需要进行结案人员信息的判断与绑定
+        form.on('submit(completeBtn)', function (data) {
+            var index = parent.layer.getFrameIndex(window.name);
+            console.log(data.field)
+            //修改表单状态
+            data.field.status = 3
+            data.field.id = getUrlParam("id")
+            $.post('/management/events/f/complete', data.field, function (res) {
+                if (res.data == true) {
+                    layer.open({
+                        type: 0,
+                        content: "结案成功",
+                        yes: function () {
+                            closeLayer(index)
+                        }
+                    })
+                } else {
+                    layer.open({
+                        type: 0,
+                        content: res.msg,
+                        yes: function () {
+                            closeLayer(index)
+                        }
+                    })
+                }
+            })
+        })
+
+        //事件评价 需要进行结案人员信息的判断与绑定
+        form.on('submit(assessBtn)', function (data) {
+            var index = parent.layer.getFrameIndex(window.name);
+            console.log(data.field)
+            //修改表单状态
+            data.field.status = 4
+            data.field.id = getUrlParam("id")
+
+            var level = $('#rate1').attr('level')
+            if (level == null)
+                level = 0
+            data.field.level = level
+            $.post('/management/events/f/assess', data.field, function (res) {
+                if (res.data == true) {
+                    layer.open({
+                        type: 0,
+                        content: res.message,
+                        yes: function () {
+                            closeLayer(index)
+                        }
+                    })
+                } else {
+                    layer.open({
+                        type: 0,
+                        content: res.message,
+                        yes: function () {
+                            closeLayer(index)
+                        }
+                    })
+                }
+            })
+        })
+
+        tableSelect.render({
+            elem: '#unit',
+            searchKey: 'my',
+            checkedKey: 'id',
+            searchPlaceholder: '自定义文字和name',
+            table: {
+                url: '/management/company/all',
+                cols:  [[
+                    { type: 'checkbox' },
+                    { field: 'companyName', title: '单位', width: 300 },
+                    { field: 'contactNumber', title: '联系电话', width: 300 }
+                ]]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.companyName)
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        })
+
+        tableSelect.render({
+            elem: '#unit1',
+            searchKey: 'my',
+            checkedKey: 'id',
+            searchPlaceholder: '自定义文字和name',
+            table: {
+                url: '/management/company/all',
+                cols:  [[
+                    { type: 'checkbox' },
+                    { field: 'companyName', title: '单位', width: 300 },
+                    { field: 'contactNumber', title: '联系电话', width: 300 }
+                ]]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.companyName)
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        })
+
+        tableSelect.render({
+            elem: '#unit2',
+            searchKey: 'my',
+            checkedKey: 'id',
+            searchPlaceholder: '自定义文字和name',
+            table: {
+                url: '/management/company/all',
+                cols:  [[
+                    { type: 'checkbox' },
+                    { field: 'companyName', title: '单位', width: 300 },
+                    { field: 'contactNumber', title: '联系电话', width: 300 }
+                ]]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.companyName)
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        })
+
+        tableSelect.render({
+            elem: '#projectId',
+            searchKey: 'projectName',
+            checkedKey: 'id',
+            searchPlaceholder: '请输入所需检索的项目名称',
+            table: {
+                url: '/management/project/all',
+                cols: [[
+                    {type: 'checkbox'},
+                    {field: 'projectId', title: '项目编号', width: "50%"},
+                    {field: 'projectName', title: '项目名称', width: "50%"},
+                ]]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.projectId)
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        })
+
+        tableSelect.render({
+            elem: '#address',
+            searchKey: 'my',
+            checkedKey: 'address',
+            searchPlaceholder: '自定义文字和name',
+            table: {
+                url: '../../api/tableSelect_address.json',
+                cols: [[
+                    {type: 'checkbox'},
+                    {field: 'id', title: '项目', width: "50%"},
+                    {field: 'address', title: '地址', width: "50%"},
+                ]]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.address)
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        })
+
+        tableSelect.render({
+            elem: '#beijianmingcheng',
+            searchKey: 'my',
+            checkedKey: 'address',
+            searchPlaceholder: '自定义文字和name',
+            table: {
+                url: '../../api/tableSelect_beijian.json',
+                cols: [[
+                    {type: 'checkbox'},
+                    {field: 'id', title: '资产名称', width: "50%"},
+                    {field: 'address', title: '编号', width: "50%"},
+                ]]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.id)
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        })
+
+        var ele = $('.beijian')
+
+        //获取url中的参数
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]);
+            return null; //返回参数值
+        }
+
+        if (getUrlParam('option') == 'add') {
+            //模拟从Session中取出用户相应数据注入其中
+            var userdata = {reporterId: '1', reporterPhone: '18738588883', reporterCompany: '微软亚洲研究院'};
+
+            console.log(userdata)
+
+            //获取所有输入框 并完成属性注入
+            $(':input').each(function (i, dom) {
+                for (var p in userdata) {
+                    if (dom.name == p) {
+                        dom.value = userdata[p]
+                    }
+                }
+            })
+
+        } else if (getUrlParam('option') == 'edit') {
+            $('#savaBtn').attr("lay-filter", "submitBtn")
+            $.get('/management/events/' + getUrlParam("id"), function (res) {
+                $.get('/management/user/' + res.data['reporterId'], function (userMsg) {
+                    $.get('/management/company/' + userMsg.data['companyId'], function (companyMsg) {
+                        console.log(res.data)
+                        res.data.reporterName = userMsg.data['name']
+                        res.data.reporterPhone = userMsg.data['phone']
+                        res.data.reporterCompany = companyMsg.data['companyName']
+                        //获取所有输入框 并完成属性注入
+                        $(':input').each(function (i, dom) {
+                            for (var p in res.data) {
+                                if (dom.name == p) {
+                                    dom.value = res.data[p]
+                                    console.log(p+":"+res.data[p])
+                                    console.log(dom.name+":"+dom.value)
+                                }
+                            }
+                        })
+                    })
+                })
+            })
+        } else if (getUrlParam('option') == 'dispatch') {
+            $('#savaBtn').attr("lay-filter", "dispatchBtn")
+            $.get('/management/eventInfo/select/' + getUrlParam("id"), function (res) {
+                console.log(res)
+                //获取所有输入框 并完成属性注入
+                $(':input').each(function (i, dom) {
+                    for (var p in res.data) {
+                        if (dom.name == p) {
+                            dom.value = res.data[p]
+                        }
+                    }
+                })
+
+                form.render('select');
+
+                $('select').each(function (i, dom) {
+                    for (var p in res.data) {
+                        if (dom.name == p) {
+                            dom.value = res.data[p]
+                        }
+                    }
+                })
+            })
+        } else if (getUrlParam('option') == 'complete') {
+            $('#savaBtn').attr("lay-filter", "completeBtn")
+            $.get('/management/eventInfo/select/' + getUrlParam("id"), function (res) {
+                console.log(res)
+                res.data.processingDescription = res.data.processingDes
+                //获取所有输入框 并完成属性注入
+                $(':input').each(function (i, dom) {
+                    for (var p in res.data) {
+                        if (dom.name == p) {
+                            dom.value = res.data[p]
+                        }
+                    }
+                })
+
+                form.render('select');
+
+                $('select').each(function (i, dom) {
+                    for (var p in res.data) {
+                        if (dom.name == p) {
+                            dom.value = res.data[p]
+                        }
+                    }
+                })
+            })
+        } else if (getUrlParam('option') == 'assess') {
+            $('#savaBtn').attr("lay-filter", "assessBtn")
+            $.get('/management/eventInfo/select/' + getUrlParam("id"), function (res) {
+                $.get('/management/eventAssess/select/' + getUrlParam("assessId"), function (assess) {
+                    console.log(res)
+                    res.data.processingDescription = res.data.processingDes
+                    res.data.comment = assess.data.comment
+                    res.data.rating = assess.data.rating
+                    //获取所有输入框 并完成属性注入
+                    $(':input').each(function (i, dom) {
+                        for (var p in res.data) {
+                            if (dom.name == p) {
+                                dom.value = res.data[p]
+                            }
+                        }
+                    })
+
+                    form.render('select');
+
+                    $('select').each(function (i, dom) {
+                        for (var p in res.data) {
+                            if (dom.name == p) {
+                                dom.value = res.data[p]
+                            }
+                        }
+                    })
+
+                    rate.render({
+                        elem: '#rate1',
+                        value: assess.data.rating,
+                        readonly: true
+                    });
+
+                })
+
+                res.data.processingDescription = res.data.processingDes
+                //获取所有输入框 并完成属性注入
+                $(':input').each(function (i, dom) {
+                    for (var p in res.data) {
+                        if (dom.name == p) {
+                            dom.value = res.data[p]
+                        }
+                    }
+                })
+
+                form.render('select');
+
+                $('select').each(function (i, dom) {
+                    for (var p in res.data) {
+                        if (dom.name == p) {
+                            dom.value = res.data[p]
+                        }
+                    }
+                })
+
+                rate.render({
+                    elem: '#rate1',
+                    value: assess.data.rating,
+                    readonly: true
+                });
+            })
+        }else if(getUrlParam('option') == 'assessAgain'){
+            $('#savaBtn').attr("lay-filter", "assessBtn")
+            $.get('/management/eventInfo/select/' + getUrlParam("id"), function (res) {
+                $.get('/management/eventAssess/select/' + getUrlParam("assessId"), function (assess) {
+                    console.log(res)
+                    res.data.processingDescription = res.data.processingDes
+                    res.data.comment = ""
+                    res.data.rating = assess.data.rating
+                    //获取所有输入框 并完成属性注入
+                    $(':input').each(function (i, dom) {
+                        for (var p in res.data) {
+                            if (dom.name == p) {
+                                dom.value = res.data[p]
+                            }
+                        }
+                    })
+
+                    form.render('select');
+
+                    $('select').each(function (i, dom) {
+                        for (var p in res.data) {
+                            if (dom.name == p) {
+                                dom.value = res.data[p]
+                            }
+                        }
+                    })
+
+                    rate.render({
+                        elem: '#rate1',
+                    });
+
+                })
+
+                res.data.processingDescription = res.data.processingDes
+                //获取所有输入框 并完成属性注入
+                $(':input').each(function (i, dom) {
+                    for (var p in res.data) {
+                        if (dom.name == p) {
+                            dom.value = res.data[p]
+                        }
+                    }
+                })
+
+                form.render('select');
+
+                $('select').each(function (i, dom) {
+                    for (var p in res.data) {
+                        if (dom.name == p) {
+                            dom.value = res.data[p]
+                        }
+                    }
+                })
+
+                rate.render({
+                    elem: '#rate1',
+                });
+            })
+        }else if(getUrlParam('option') == 'assessLook'){
+            $('#savaBtn').attr("lay-filter", "assessBtn")
+            $.get('/management/eventInfo/select/' + getUrlParam("id"), function (res) {
+                $('#evaluationInformation input').attr("disabled","disabled");
+                $.get('/management/eventAssess/select/' + getUrlParam("assessId"), function (assess) {
+                    $('#evaluationInformation input').attr("disabled","disabled");
+                    console.log(res)
+                    res.data.processingDescription = res.data.processingDes
+                    res.data.comment = assess.data.comment
+                    res.data.rating = assess.data.rating
+                    //获取所有输入框 并完成属性注入
+                    $(':input').each(function (i, dom) {
+                        for (var p in res.data) {
+                            if (dom.name == p) {
+                                dom.value = res.data[p]
+                            }
+                        }
+                    })
+
+                    form.render('select');
+
+                    $('select').each(function (i, dom) {
+                        for (var p in res.data) {
+                            if (dom.name == p) {
+                                dom.value = res.data[p]
+                            }
+                        }
+                    })
+
+                    rate.render({
+                        elem: '#rate1',
+                        value: assess.data.rating,
+                        readonly: true
+                    });
+
+                })
+
+                res.data.processingDescription = res.data.processingDes
+                //获取所有输入框 并完成属性注入
+                $(':input').each(function (i, dom) {
+                    for (var p in res.data) {
+                        if (dom.name == p) {
+                            dom.value = res.data[p]
+                        }
+                    }
+                })
+
+                form.render('select');
+
+                $('select').each(function (i, dom) {
+                    for (var p in res.data) {
+                        if (dom.name == p) {
+                            dom.value = res.data[p]
+                        }
+                    }
+                })
+
+                rate.render({
+                    elem: '#rate1',
+                    value: assess.data.rating,
+                    readonly: true
+                });
+            })
+        }
+
+        //根据前端所传参数进行表单的禁用与启用
+        if (getUrlParam('type') == 1) {
+            $('#orderInformation input').removeAttr("disabled")
+            $('#orderInformation select').removeAttr("disabled")
+            $('#orderInformation button').removeAttr("disabled")
+            $('#test3').attr("class","layui-btn")
+            form.render()
+            //日期
+            laydate.render({
+                elem: '#date',
+                type: "datetime",
+                value: new Date()
+            });
+        } else if (getUrlParam('type') == 2) {
+            $('#dispatchInformation input').removeAttr("disabled")
+            $('#dispatchInformation button').removeAttr("disabled")
+        } else if (getUrlParam('type') == 3) {
+            $('#caseInformation input').removeAttr("disabled")
+            $('#caseInformation button').removeAttr("disabled")
+            $('#caseInformation textarea').removeAttr("disabled")
+            $('#test4').attr("class","layui-btn")
+        } else if (getUrlParam('type') == 4) {
+            $('#evaluationInformation input').removeAttr("disabled")
+        }
+
+        var num = 1
+        $('#zhuijia').click(function name(params) {
+            var newEle = ele.clone()
+
+            console.log(newEle.find("#beijianmingcheng").attr("id", "beijianmingcheng" + num))
+            num++
+            $('#beipin').append(newEle)
+
+            for (var i = 1; i <= num; i++) {
+                tableSelect.render({
+                    elem: '#beijianmingcheng' + i,
+                    searchKey: 'my',
+                    checkedKey: 'address',
+                    searchPlaceholder: '自定义文字和name',
+                    table: {
+                        url: '../../api/tableSelect_beijian.json',
+                        cols: [[
+                            {type: 'checkbox'},
+                            {field: 'id', title: '资产名称', width: "50%"},
+                            {field: 'address', title: '编号', width: "50%"},
+                        ]]
+                    },
+                    done: function (elem, data) {
+                        var NEWJSON = []
+                        layui.each(data.data, function (index, item) {
+                            NEWJSON.push(item.id)
+                        })
+                        elem.val(NEWJSON.join(","))
+                    }
+                })
+            }
+            form.render()
+        })
+
+        //评级器
+        rate.render({
+            elem: '#rate1',
+            value: 0,
+            choose: function (value) {
+                console.log(value)
+                $('#rate1').attr('level', value)
+            }
+        });
+
+        laydate.render({
+            elem: '#date1'
+        });
+
+
+        //多图片上传
+        upload.render({
+            elem: '#test3'
+            , url: '/management/image/upload' //改成您自己的上传接口
+            , multiple: true
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#demo2').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
+                });
+            }
+            ,data:{
+                eventId:getUrlParam("id"),
+                eventStatus:getUrlParam("type")
+            }
+            , done: function (res) {
+                if (res.data == true){
+                    layer.msg('上传成功',{icon: 6});
+                }
+            }
+        });
+
+        //多图片上传
+        upload.render({
+            elem: '#test4'
+            , url: '/management/image/upload' //改成您自己的上传接口
+            , multiple: true
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#demo3').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
+                });
+            },data:{
+                eventId:getUrlParam("id"),
+                eventStatus:getUrlParam("type")
+            }
+            , done: function (res) {
+                if (res.data == true){
+                    layer.msg('上传成功',{icon: 6});
+                }
+            }
+        });
+
+        // center = new qq.maps.LatLng(39.916527, 116.397128);
+        if (getUrlParam("option")=="add"){
+            var center = new qq.maps.LatLng(39.916527, 116.397128);
+            var map = new qq.maps.Map(document.getElementById("mapContainer"), {
+                // 地图的中心地理坐标。
+                center: center,
+                zoom: 13
+            });
+
+            //创建marker
+            var marker = new qq.maps.Marker({
+                position: center,
+                map: map
+            });
+        } else{
+            $.get('/management/eventInfo/select/' + getUrlParam("id"), function (res) {
+                console.log(res.data.latitude == 0)
+                if (res.data.latitude == 0) {
+                    var center = new qq.maps.LatLng(39.916527, 116.397128);
+                    var map = new qq.maps.Map(document.getElementById("mapContainer"), {
+                        // 地图的中心地理坐标。
+                        center: center,
+                        zoom: 13
+                    });
+
+                    //创建marker
+                    var marker = new qq.maps.Marker({
+                        position: center,
+                        map: map
+                    });
+                } else {
+                    var center = new qq.maps.LatLng(res.data.latitude, res.data.longitude);
+                    var map = new qq.maps.Map(document.getElementById("mapContainer"), {
+                        // 地图的中心地理坐标。
+                        center: center,
+                        zoom: 13
+                    });
+
+                    var label = new qq.maps.Label({
+                        position: center,
+                        map: map,
+                        content: '故障点'
+                    });
+
+                    //创建marker
+                    var marker = new qq.maps.Marker({
+                        position: center,
+                        map: map
+                    });
+                }
+            })
+        }
+
+
+
+    })
+</script>
+
+<script>
+
+
+</script>

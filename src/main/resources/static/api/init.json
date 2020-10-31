@@ -1,0 +1,250 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "page/main.html?t=1"
+  },
+  "logoInfo": {
+    "title": "监管平台",
+    "image": "images/logo1.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "常规管理",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+       {
+          "title": "资产管理",
+          "href": "",
+          "icon": "fa fa-database",
+          "target": "_self",
+          "child": [
+            {
+              "title": "资产统计",
+              "href": "page/assets-msg.html",
+              "icon": "fa fa-database",
+              "target": "_self"
+            },
+            {
+              "title": "信息核查",
+              "href": "page/asset-check.html",
+              "icon": "fa fa-check",
+              "target": "_self"
+            }
+          ]
+        },{
+          "title": "事件管理",
+          "href": "",
+          "icon": "fa fa-calendar",
+          "target": "",
+          "child": [
+            {
+              "title": "事件管理",
+              "href": "page/event-management.html",
+              "icon": "fa fa-reorder",
+              "target": "_self"
+            },
+            {
+              "title": "报单管理",
+              "href": "page/event-declaration.html",
+              "icon": "fa fa-reorder",
+              "target": "_self"
+            },
+            {
+              "title": "派单管理",
+              "href": "page/event-dispatch.html",
+              "icon": "fa fa-check",
+              "target": "_self"
+            },
+            {
+              "title": "结案管理",
+              "href": "page/event-complete.html",
+              "icon": "fa fa-book",
+              "target": "_self"
+            },
+            {
+              "title": "评价管理",
+              "href": "page/event-assess.html",
+              "icon": "fa fa-comment",
+              "target": "_self"
+            },{
+              "title": "实施管理",
+              "href": "page/implementation-management.html",
+              "icon": "fa fa-file",
+              "target": "_self"
+            },{
+              "title": "事件附件",
+              "href": "page/document-manager.html",
+              "icon": "fa fa-file-text",
+              "target": "_self"
+            }
+          ]
+        },{
+          "title": "巡检管理",
+          "href": "",
+          "icon": "fa fa-clock-o",
+          "target": "",
+          "child": [
+            {
+              "title": "巡检计划",
+              "href": "page/exam-plan.html",
+              "icon": "fa fa-clock-o",
+              "target": "_self"
+            },
+            {
+              "title": "巡检记录",
+              "href": "page/exam-record.html",
+              "icon": "fa fa-file-text",
+              "target": "_self"
+            }
+          ]
+        },{
+          "title": "服务评价",
+          "href": "",
+          "icon": "fa fa-clock-o",
+          "target": "",
+          "child":[
+            {
+              "title": "报警统计",
+              "href": "page/warning-statistics.html",
+              "icon": "fa fa-file",
+              "target": "_self"
+            },{
+              "title": "事件协议",
+              "href": "",
+              "icon": "fa fa-book",
+              "target": "",
+              "child": [
+                {
+                  "title": "事件协议",
+                  "href": "page/dict-worning.html",
+                  "icon": "fa fa-file",
+                  "target": "_self"
+                },
+                {
+                  "title": "故障分类",
+                  "href": "page/dict-error.html",
+                  "icon": "fa fa-bookmark",
+                  "target": "_self"
+                },
+                {
+                  "title": "资产类别",
+                  "href": "page/dict-assets.html",
+                  "icon": "fa fa-database",
+                  "target": "_self"
+                },
+                {
+                  "title": "考核文档规则",
+                  "href": "page/assessment-method.html",
+                  "icon": "fa fa-database",
+                  "target": "_self"
+                }
+              ]
+            },
+            {
+              "title": "考核文档",
+              "href": "page/assessment-document.html",
+              "icon": "fa fa-file",
+              "target": "_self"
+            },{
+              "title": "考核报告",
+              "href": "page/assessment-report.html",
+              "icon": "fa fa-file",
+              "target": "_self"
+            }, {
+              "title": "考勤管理",
+              "href": "",
+              "icon": "fa fa-folder-open",
+              "target": "",
+              "child": [
+                {
+                  "title": "系统考勤统计",
+                  "href": "page/attendance-statistics.html",
+                  "icon": "fa fa-file",
+                  "target": "_self"
+                },
+                {
+                  "title": "人员考勤统计",
+                  "href": "page/staff-check-in-statistics.html",
+                  "icon": "fa fa-file",
+                  "target": "_self"
+                }
+    
+              ]
+            }
+          ]
+        }, {
+          "title": "信息管理",
+          "href": "",
+          "icon": "fa fa-folder-open",
+          "target": "",
+          "child": [
+            {
+              "title": "项目管理",
+              "href": "page/doc-project.html",
+              "icon": "fa fa-file",
+              "target": "_self"
+            },
+            {
+              "title": "合同管理",
+              "href": "page/doc-contract.html",
+              "icon": "fa fa-file",
+              "target": "_self"
+            },
+            {
+              "title": "单位管理",
+              "href": "page/doc-unit.html",
+              "icon": "fa fa-file",
+              "target": "_self"
+            },
+            {
+              "title": "信息管理",
+              "href": "page/doc-msg.html",
+              "icon": "fa fa-file",
+              "target": "_self"
+            }
+          ]
+        }, {
+          "title": "公告推送",
+          "href": "",
+          "icon": "fa fa-envelope-o",
+          "target": "",
+          "child": [
+            {
+              "title": "公告管理",
+              "href": "page/push-msg.html",
+              "icon": "fa fa-envelope-o",
+              "target": "_self"
+            }
+          ]
+        },{
+          "title": "系统设置",
+          "href": "",
+          "icon": "fa fa-gear",
+          "target": "",
+          "child": [
+            {
+              "title": "用户管理",
+              "href": "page/system-user.html",
+              "icon": "fa fa-gear",
+              "target": "_self"
+            },
+            {
+              "title": "权限管理",
+              "href": "page/system-authority.html",
+              "icon": "fa fa-gear",
+              "target": "_self"
+            },{
+              "title": "知识库",
+              "href": "",
+              "icon": "fa fa-book",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

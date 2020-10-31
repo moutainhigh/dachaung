@@ -1,0 +1,57 @@
+{
+    "code": 0,
+    "msg": "",
+    "count": 1000,
+    "data": [
+      {
+        "id": 10000,
+        "docType": "合同文件",
+        "uploadCycle": "月",
+        "uploadTime": "15",
+        "setTname": "2020-06-16",
+        "money": "",
+        "status":0,
+        "remark": "关于技术报告的相关上传规则"
+      },
+      {
+        "id": 10000,
+        "docType": "事件附件",
+        "uploadCycle": "年",
+        "uploadTime": "123",
+        "setTname": "2020-06-16",
+        "money": "",
+        "status":0,
+        "remark": "关于技术报告的相关上传规则"
+      },
+      {
+        "id": 10000,
+        "docType": "合同文件",
+        "uploadCycle": "星期",
+        "uploadTime": "5",
+        "setTname": "2020-06-16",
+        "money": "",
+        "status":0,
+        "remark": "关于技术报告的相关上传规则"
+      },
+      {
+        "id": 10000,
+        "docType": "合同文件",
+        "uploadCycle": "季度",
+        "uploadTime": "25",
+        "setTname": "2020-06-16",
+        "money": "",
+        "status":0,
+        "remark": "关于技术报告的相关上传规则"
+      },
+      {
+        "id": 10000,
+        "docType": "合同文件",
+        "uploadCycle": "月",
+        "uploadTime": "15",
+        "setTname": "2020-06-16",
+        "money": "",
+        "status":0,
+        "remark": "关于技术报告的相关上传规则"
+      }
+    ]
+  }

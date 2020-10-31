@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-form layuimini-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">项目名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="projectName" lay-verify="required" lay-reqtext="项目名不能为空" placeholder="请输入项目名"
+                        value="" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label required">金额</label>
+                <div class="layui-input-block">
+                    <input type="text" name="amount" lay-verify="required" lay-reqtext="金额不能为空" placeholder="请输入金额 "
+                        value="" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">负责人</label>
+                <div class="layui-input-block">
+                    <input type="text" id="principal" name="principal" placeholder="请输入"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label required">联系方式</label>
+                <div class="layui-input-block">
+                    <input type="number" name="principalPhone" lay-verify="required" lay-reqtext="手机不能为空" placeholder="请输入手机"
+                        value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">建设单位</label>
+                <div class="layui-input-block">
+                    <input type="hidden" id="companyId" name="companyId">
+                    <input type="text" id="company" name="company"
+                           placeholder="请输入建设单位" value="" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">隶属行业</label>
+                <div class="layui-input-block">
+                <select name="companyType" lay-filter="aihao">
+                    <option value=""></option>
+                    <option value="0">行业A</option>
+                    <option value="1" selected="">行业B</option>
+                    <option value="2">行业C</option>
+                    <option value="3">行业D</option>
+                  </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">终验日期</label>
+                <div class="layui-input-block">
+                    <input type="text" id="finalInspectionDate" name="finalInspectionDate" placeholder="请输入终验日期" value="" class="layui-input date">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">质保日期</label>
+                <div class="layui-input-block">
+                    <input type="text" id="warrantyDate" name="warrantyDate" placeholder="请输入质保日期" value="" class="layui-input date">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">项目简介</label>
+                <div class="layui-input-block">
+                    <textarea name="projectDes" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">管理单位</label>
+                <div class="layui-input-block">
+                    <input type="hidden" id="managementCompanyId" name="managementCompanyId">
+                    <input type="text" id="managementCompany" name="managementCompany" placeholder="请选择管理单位" value="" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">项目专管员</label>
+                <div class="layui-input-block">
+                    <input type="text" id="management" name="management" placeholder="请输入项目专管员" value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <input type="text" name="remarks" placeholder="请输入备注" value="" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+    </div>
+    </div>
+    <script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="../../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'tableSelect', 'table','laydate'], function () {
+            var form = layui.form,
+                layer = layui.layer,
+                table = layui.table,
+                laydate = layui.laydate,
+                tableSelect = layui.tableSelect,
+                $ = layui.$;
+
+
+            // laydate.render({
+            //     elem:'#finalInspectionDate'
+            //     , format: 'yyyy-MM-dd HH:mm:ss'
+            // })
+            // laydate.render({
+            //     elem:'#warrantyDate'
+            //     , format: 'yyyy-MM-dd HH:mm:ss'
+            // })
+            //时间下拉菜单
+            lay('.date').each(function() {
+                laydate.render({
+                    elem: this
+                    ,format: 'yyyy-MM-dd HH:mm:ss'
+                });
+            });
+
+            //监听提交
+            form.on('submit(saveBtn)', function (data) {
+                var index = layer.alert(JSON.stringify(data.field), {
+                    title: '最终的提交信息'
+                }, function () {
+                    $.ajax(
+                        {
+                            url: '/management/projects/create',
+                            type: "POST",
+                            dataType: "json",
+                            contentType: "application/json;charset=UTF-8",
+                            data: JSON.stringify(data.field),
+                            success: function () {
+                                layer.alert("success");
+                            },
+                            error: function () {
+                                layer.alert("fail");
+
+                            }
+                        }
+                    )
+
+                    // 关闭弹出层
+                    layer.close(index);
+
+                    var iframeIndex = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(iframeIndex);
+
+                });
+
+                return false;
+            });
+
+            //项目负责人姓名
+            tableSelect.render({
+                elem: '#principal',
+                searchKey: 'name',
+                checkedKey: 'id',
+                searchPlaceholder: '请输入姓名',
+                table: {
+                    url: '/management/user/all',
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'id', title: 'ID', width: "50%" },
+                        { field: 'name', title: '姓名', width: "50%"},
+                    ]]
+                },
+                done: function (elem, data) {
+                    if (data.data.length !== 1) {
+                        layer.alert('只能选择一个管理单位')
+                    } else {
+                        elem.val(data.data[0].name)
+                    }
+                }
+            })
+
+            //项目专管员姓名
+            tableSelect.render({
+                elem: '#management',
+                searchKey: 'name',
+                checkedKey: 'id',
+                searchPlaceholder: '请输入姓名',
+                table: {
+                    url: '/management/user/all',
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'id', title: 'ID', width: "50%" },
+                        { field: 'name', title: '姓名', width: "50%"},
+                    ]]
+                },
+                done: function (elem, data) {
+                    if (data.data.length !== 1) {
+                        layer.alert('只能选择一个管理单位')
+                    } else {
+                        elem.val(data.data[0].name)
+                    }
+                }
+            })
+
+            //单位选择下拉框  建设单位
+            tableSelect.render({
+                elem: '#company',
+                searchKey: 'companyName',
+                checkedKey: 'companyId',
+                searchPlaceholder: '请输入所需检索的项目名称',
+                table: {
+                    url: '/management/company/all',
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'companyId', title: '单位id', width: "50%" },
+                        { field: 'companyName', title: '单位名称', width: "50%" },
+                    ]]
+                },
+                done: function (elem, data) {
+                    if (data.data.length !== 1) {
+                        layer.alert('只能选择一个建设单位')
+                    } else {
+                        elem.val(data.data[0].companyName)
+                        $('#companyId').val(data.data[0].companyId)
+                    }
+                }
+            })
+
+            //单位选择下拉框  管理单位
+            tableSelect.render({
+                elem: '#managementCompany',
+                searchKey: 'companyName',
+                checkedKey: 'companyId',
+                searchPlaceholder: '请输入所需检索的项目名称',
+                table: {
+                    url: '/management/company/all',
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'companyId', title: '单位id', width: "50%" },
+                        { field: 'companyName', title: '单位名称', width: "50%" },
+                    ]]
+                },
+                done: function (elem, data) {
+                    if (data.data.length !== 1) {
+                        layer.alert('只能选择一个管理单位')
+                    } else {
+                        elem.val(data.data[0].companyName)
+                        $('#managementCompanyId').val(data.data[0].companyId)
+                    }
+
+                    // var NEWJSON = []
+                    // layui.each(data.data, function (index, item) {
+                    //     NEWJSON.push(item.companyName)
+                    //
+                    // })
+                    // elem.val(NEWJSON.join(","))
+                }
+            })
+
+        });
+    </script>
+</body>
+
+</html>

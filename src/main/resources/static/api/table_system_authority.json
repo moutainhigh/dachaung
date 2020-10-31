@@ -1,0 +1,33 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 19,
+  "data": [
+    {
+      "id": 1,
+      "authority": "运维单位",
+      "limits": "",
+      "descr": "运维单位所拥有的权限"
+    },{
+      "id": 2,
+      "authority": "施工单位",
+      "limits": "",
+      "descr": "施工单位所拥有的权限"
+    },{
+      "id":3,
+      "authority": "监理单位",
+      "limits": "",
+      "descr": "监理单位所拥有的权限"
+    },{
+      "id": 4,
+      "authority": "建设单位",
+      "limits": "",
+      "descr": "建设单位所拥有的权限"
+    },{
+      "id": 5,
+      "authority": "超级管理员",
+      "limits": "",
+      "descr": "超级管理员所拥有的权限"
+    }
+  ]
+}

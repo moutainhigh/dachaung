@@ -1,0 +1,75 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 1000,
+  "data": [
+    {
+      "id": 10000,
+      "username": "user-0",
+      "account": "account1",
+      "sign": "状态-0",
+      "truename": "张三",
+      "unit": "监管局",
+      "addr":"河南省南阳市",
+      "email":"email@email.com",
+      "tel": 15012345678,
+      "authority": "施工方"
+    },
+    {
+      "id": 10000,
+      "username": "user-0",
+      "account": "account1",
+      "sign": "状态-0",
+      "truename": "张三",
+      "unit": "监管局",
+      "addr":"河南省南阳市",
+      "email":"email@email.com",
+      "tel": 15012345678,
+      "authority": "监管者"
+    }, {
+      "id": 10000,
+      "username": "user-0",
+      "account": "account1",
+      "sign": "状态-0",
+      "truename": "张三",
+      "unit": "监管局",
+      "addr":"河南省南阳市",
+      "email":"email@email.com",
+      "tel": 15012345678,
+      "authority": "监管者"
+    }, {
+      "id": 10000,
+      "username": "user-0",
+      "account": "account1",
+      "sign": "状态-0",
+      "truename": "张三",
+      "unit": "监管局",
+      "addr":"河南省南阳市",
+      "email":"email@email.com",
+      "tel": 15012345678,
+      "authority": "监管者"
+    }, {
+      "id": 10000,
+      "username": "user-0",
+      "account": "account1",
+      "sign": "状态-0",
+      "truename": "张三",
+      "unit": "监管局",
+      "addr":"河南省南阳市",
+      "email":"email@email.com",
+      "tel": 15012345678,
+      "authority": "监管者"
+    }, {
+      "id": 10000,
+      "username": "user-0",
+      "account": "account1",
+      "sign": "状态-0",
+      "truename": "张三",
+      "unit": "监管局",
+      "addr":"河南省南阳市",
+      "email":"email@email.com",
+      "tel": 15012345678,
+      "authority": "监管者"
+    }
+  ]
+}

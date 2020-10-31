@@ -1,0 +1,127 @@
+{
+    "code": 0,
+    "msg": "",
+    "count": 1000,
+    "data": [
+      {
+        "id": 10000,
+        "tagname": "指标0",
+        "sex": "类别-2",
+        "city": "创建人-0",
+        "sign": "负责人-0",
+        "experience":18738688889,
+        "logins": "2020-04-10",
+        "wealth": 82830700,
+        "classify": "在用",
+        "score": 57
+      },
+      {
+        "id": 10001,
+        "tagname": "指标1",
+        "sex": "类别-1",
+        "city": "创建人-1",
+        "sign": "负责人-1",
+        "experience":18738688889,
+        "logins": "2020-04-10",
+        "wealth": 64928690,
+        "classify": "弃用",
+        "score": 27
+      },
+      {
+        "id": 10002,
+        "tagname": "指标2",
+        "sex": "类别-2",
+        "city": "创建人-2",
+        "sign": "负责人-2",
+        "experience":18738688889,
+        "logins": "2020-04-10",
+        "wealth": 6298078,
+        "classify": "弃用",
+        "score": 31
+      },
+      {
+        "id": 10003,
+        "tagname": "指标3",
+        "sex": "类别-2",
+        "city": "创建人-3",
+        "sign": "负责人-3",
+        "experience":18738688889,
+        "logins": "2020-04-10",
+        "wealth": 37117017,
+        "classify": "弃用",
+        "score": 68
+      },
+      {
+        "id": 10004,
+        "tagname": "指标4",
+        "sex": "类别-1",
+        "city": "创建人-4",
+        "sign": "负责人-4",
+        "experience":18738688889,
+        "logins": "2020-04-10",
+        "wealth": 76263262,
+        "classify": "在用",
+        "score": 6
+      },
+      {
+        "id": 10005,
+        "tagname": "指标5",
+        "sex": "类别-2",
+        "city": "创建人-5",
+        "sign": "负责人-5",
+        "experience":18738688889,
+        "logins": "2020-04-10",
+        "wealth": 60344147,
+        "classify": "在用",
+        "score": 87
+      },
+      {
+        "id": 10006,
+        "tagname": "指标6",
+        "sex": "类别-2",
+        "city": "创建人-6",
+        "sign": "负责人-6",
+        "experience":18738688889,
+        "logins": "2020-04-10",
+        "wealth": 57768166,
+        "classify": "在用",
+        "score": 34
+      },
+      {
+        "id": 10007,
+        "tagname": "指标7",
+        "sex": "类别-1",
+        "city": "创建人-7",
+        "sign": "负责人-7",
+        "experience":18738688889,
+        "logins": "2020-04-10",
+        "wealth": 82030578,
+        "classify": "在用",
+        "score": 28
+      },
+      {
+        "id": 10008,
+        "tagname": "指标8",
+        "sex": "类别-1",
+        "city": "创建人-8",
+        "sign": "负责人-8",
+        "experience":18738688889,
+        "logins": "2020-04-10",
+        "wealth": 16503371,
+        "classify": "弃用",
+        "score": 14
+      },
+      {
+        "id": 10009,
+        "tagname": "指标9",
+        "sex": "类别-2",
+        "city": "创建人-9",
+        "sign": "负责人-9",
+        "experience":18738688889,
+        "logins": "2020-04-10",
+        "wealth": 86801934,
+        "classify": "弃用",
+        "score": 75
+      }
+    ]
+  }

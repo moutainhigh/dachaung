@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>编辑巡检记录</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="layui-form layuimini-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label required">巡检人</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名" value="" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">巡检时间</label>
+            <div class="layui-input-block">
+                <input class="layui-input" id="exam_date_select" type="text" placeholder="请输入时间范围">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">巡检方式</label>
+            <div class="layui-input-block">
+                <select name="exam_type" lay-verify="required">
+                    <option value=""></option>
+                    <option value="0">现场查看</option>
+                    <option value="1">其他</option>
+                  </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否正常</label>
+            <div class="layui-input-block">
+              <input type="radio" name="flag" value="是" title="是">
+              <input type="radio" name="flag" value="否" title="否" checked>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">附件上传</label>
+            <div class="layui-upload">
+                <button type="button" class="layui-btn layui-btn-normal" id="test8"
+                    style="margin-left: 120px;">选择文件</button>
+                <button type="button" class="layui-btn" id="test9">开始上传</button>
+            </div>
+          </div>  
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">评价</label>
+            <div class="layui-input-block">
+                <textarea name="remark" class="layui-textarea" placeholder="请输入评价情况"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+            </div>
+        </div>
+    </div>
+<script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form','laydate','upload'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$,
+            laydate = layui.laydate,
+            upload = layui.upload;
+
+            //文件上传
+            upload.render({
+                elem: '#test8'
+                , url: 'https://httpbin.org/post' //改成您自己的上传接口
+                , auto: false
+                //,multiple: true
+                , bindAction: '#test9'
+                , done: function (res) {
+                    layer.msg('上传成功');
+                    console.log(res)
+                }
+            });
+
+        laydate.render({
+            elem: '#exam_date_select'
+            ,type: 'date'
+            ,range: '到'
+            ,format: 'yyyy年M月d日'
+            ,range:true
+            ,done: function(value, date,enddate){
+                layer.msg('你选择的日期是：' + value + '<br><br>获得的对象是' + JSON.stringify(date));
+                layer.msg('你选择的日期是：' + value + '<br><br>获得的对象是' + JSON.stringify(enddate));
+            }
+        });
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            var index = layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            }, function () {
+
+                // 关闭弹出层
+                layer.close(index);
+
+                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(iframeIndex);
+
+            });
+
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

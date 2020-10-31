@@ -1,0 +1,32 @@
+{
+    "code": 0,
+    "msg": "",
+    "count": 1000,
+    "data": [
+      {
+        "assets_id":"ZC001",
+        "assets_name": "数据中心核心交换机",
+        "brand":"华为",
+        "type":"硬件",
+        "unit":"中道监理单位",
+        "assets_number":"10台",
+        "assets_state":"正常",
+        "model":"CE12808",
+        "manufacturer":"华为",
+        "project":"天网计划",
+        "number":"2台"
+      },{
+        "assets_id":"ZC002",
+        "assets_name": "核心交换机",
+        "brand":"华为",
+        "type":"软件",
+        "unit":"中道监理单位",
+        "assets_number":"10台",
+        "assets_state":"正常",
+        "model":"S12710 V200R010",
+        "manufacturer":"华为",
+        "project":"南阳市中心城区视频监控建设联网应用项目",
+        "number":"1台"
+      }
+    ]
+  }

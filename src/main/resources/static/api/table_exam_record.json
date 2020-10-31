@@ -1,0 +1,53 @@
+{
+    "code": 0,
+    "msg": "",
+    "count": 20,
+    "data": [
+      {
+        "id":"001",
+        "exam_number":"00001",
+        "exam_name":"大数据中心数据库备份",
+        "exam_user":"张三",
+        "exam_time":"2020-04-22",
+        "exam_status":0,
+        "exam_type":0,
+        "exam_res":0
+      }, {
+        "id":"001",
+        "exam_number":"00001",
+        "exam_name":"大数据中心数据库备份",
+        "exam_user":"张三",
+        "exam_time":"2020-04-22",
+        "exam_status":1,
+        "exam_type":1,
+        "exam_res":1
+      }, {
+        "id":"001",
+        "exam_number":"00001",
+        "exam_name":"大数据中心数据库备份",
+        "exam_user":"张三",
+        "exam_time":"2020-04-22",
+        "exam_status":0,
+        "exam_type":2,
+        "exam_res":0
+      }, {
+        "id":"001",
+        "exam_number":"00001",
+        "exam_name":"大数据中心数据库备份",
+        "exam_user":"张三",
+        "exam_time":"2020-04-22",
+        "exam_status":1,
+        "exam_type":0,
+        "exam_res":1
+      }, {
+        "id":"001",
+        "exam_number":"00001",
+        "exam_name":"大数据中心数据库备份",
+        "exam_user":"张三",
+        "exam_time":"2020-04-22",
+        "exam_status":0,
+        "exam_type":1,
+        "exam_res":1
+      }
+    ]
+  }

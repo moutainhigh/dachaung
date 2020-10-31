@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>项目管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <style>
+        .layui-form-item{
+            margin-bottom: 0px;
+        }
+        .layui-inline{
+            margin-bottom: 5px;
+            margin-right: -10px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+            <fieldset class="table-search-fieldset">
+                <legend>搜索信息</legend>
+                <div style="margin: 10px 10px 10px 10px">
+                    <form class="layui-form layui-form-pane" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">项目名称</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="projectName" name="projectName" autocomplete="off"
+                                        class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">项目编号</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="projectId" name="projectId" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">单位名称</label>
+                                <div class="layui-input-inline">
+                                    <input type="hidden" id="companyId" name="companyId" >
+                                    <input type="text" id="companyName" name="companyName" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">电话</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="principalPhone" name="principalPhone" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label layui-form-label-left">负责人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="principal" name="principal" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                        </div>
+                </div>
+                </form>
+        </div>
+        </fieldset>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+                <button id="importFile" class="layui-btn layui-btn-sm data-delete-btn" lay-event="importFile"> 导入 </button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+
+    </div>
+    </div>
+    <script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'table', 'tableSelect', 'upload'], function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                table = layui.table,
+                tableSelect = layui.tableSelect,
+                upload = layui.upload;
+
+            //存储项目查询后的信息
+            var projectInfo = []
+
+            //查询要在展示前边  异步关闭
+            $.ajaxSettings.async = false;
+            $.get('/management/project/all', function (res) {
+                if (res.code == 0) {
+                    res.data.forEach(function (info) {
+                        projectInfo.push({
+                            'projectId': info.projectId,
+                            'projectName': info.projectName,
+                            'companyName': '无',
+                            'principal': info.principal,
+                            'principalPhone': info.principalPhone,
+                            'amount': info.amount,
+                            'finalInspectionDate': info.finalInspectionDate,
+                            'warrantyDate': info.warrantyDate
+                        })
+                        if (info.companyId != null) {
+                            $.get('/management/company/' + info.companyId, function (companyMsy) {
+                                if(companyMsy.code == 100)
+                                    projectInfo[projectInfo.length-1]['companyName'] = '无'
+                                else
+                                    projectInfo[projectInfo.length-1]['companyName'] = companyMsy.data['companyName']
+                            })
+                        }
+                    })
+                }
+            })
+            $.ajaxSettings.async = true;
+
+            table.render({
+                elem: '#currentTableId',
+                id:"currentTableId",
+                toolbar: '#toolbarDemo',
+                defaultToolbar: ['filter', 'exports', 'print', {
+                    title: '提示',
+                    layEvent: 'LAYTABLE_TIPS',
+                    icon: 'layui-icon-tips'
+                }],
+                cols: [[
+                    { type: "checkbox", width: '3%' },
+                    { field: 'projectId', width: '10%', title: '项目代码', sort: true },
+                    { field: 'projectName', width: '20%', title: '项目名称' },
+                    { field: 'companyName', width: '10%', title: '建设单位' },
+                    { field: 'principal', width: 120, title: '项目负责人', sort: true },
+                    { field: 'principalPhone', width: 120, title: '联系电话' },
+                    { field: 'amount', width: 120, title: '金额(万元)', minWidth: 120 },
+                    { field: 'finalInspectionDate', width: 150, title: '终验日期', sort: true },
+                    { field: 'warrantyDate', width: 140, title: '质保日期', sort: true },
+                    { title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center" }
+                ]],
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 15,
+                page: true,
+                skin: 'line',
+                data:projectInfo
+            });
+
+            // 监听搜索操作
+            form.on('submit(data-search-btn)', function (data) {
+                var result = JSON.stringify(data.field);
+                layer.alert(result, {
+                    title: '最终的搜索信息'
+                });
+
+                projectInfo = [];
+                $.ajaxSettings.async = false;
+                $.get('/management/projects/select/?'+ $.param(data.field), function (res) {
+                    if(res.code == 0){
+                        res.data.forEach(function (info) {
+                            projectInfo.push({
+                                'projectId' : info.projectId,
+                                'projectName' : info.projectName,
+                                'companyName' :  '无',
+                                'principal' : info.principal,
+                                'principalPhone' : info.principalPhone,
+                                'amount' : info.amount,
+                                'finalInspectionDate' : info.finalInspectionDate,
+                                'warrantyDate' : info.warrantyDate
+                            })
+                            console.log(info.companyId)
+                            if(info.companyId != null) {
+                                $.get('/management/company/' + info.companyId, function (companyMsy) {
+                                    if(companyMsy.code == 0)
+                                        projectInfo[projectInfo.length-1]['companyName'] = companyMsy.data['companyName']
+                                    else
+                                        projectInfo[projectInfo.length-1]['companyName'] = '无'
+                                })
+                            }
+                        })
+                    }
+                })
+                //表格的搜索重载
+                table.reload('currentTableId',{
+                    data:projectInfo
+                })
+                $.ajaxSettings.async = true;
+                return false;
+            });
+
+            //搜索选择公司
+            tableSelect.render({
+                elem: '#companyName',
+                searchKey: 'companyName',
+                checkedKey: 'companyId',
+                searchPlaceholder: '请输入所需检索的项目名称',
+                table: {
+                    url: '/management/company/all',
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'companyId', title: '单位id', width: "50%" },
+                        { field: 'companyName', title: '单位名称', width: "50%" },
+                    ]]
+                },
+                done: function (elem, data) {
+                    if (data.data.length > 1) {
+                        layer.alert('只能选择一个建设单位')
+                    }else if(data.data.length == 0){
+                        elem.val("")
+                        $('#companyId').val(null)
+                    } else {
+                        elem.val(data.data[0].companyName)
+                        $('#companyId').val(data.data[0].companyId)
+                    }
+                }
+            })
+
+            tableSelect.render({
+                elem: '#principal',
+                searchKey: 'name',
+                checkedKey: 'id',
+                searchPlaceholder: '请输入姓名',
+                table: {
+                    url: '/management/user/all',
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'id', title: 'ID', width: "50%" },
+                        { field: 'name', title: '姓名', width: "50%"},
+                    ]]
+                },
+                done: function (elem, data) {
+                    if (data.data.length !== 1) {
+                        layer.alert('只能选择一个负责人')
+                    } else {
+                        elem.val(data.data[0].principal)
+                    }
+                }
+            })
+
+            /**
+             * toolbar监听事件
+             * 监听表格复选框选择
+             */
+            table.on('toolbar(currentTableFilter)', function (obj) {
+                if (obj.event === 'add') {  // 监听添加操作
+                    var index = layer.open({
+                        title: '添加项目',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/add-project.html',
+                        end: function () {
+                            var projectInfo = []
+                            //多表查询 实现表格重载
+                            $.ajaxSettings.async = false;
+                            $.get('/management/project/all', function (res) {
+                                if (res.code == 0) {
+                                    res.data.forEach(function (info) {
+                                        projectInfo.push({
+                                            'projectId': info.projectId,
+                                            'projectName': info.projectName,
+                                            'companyName': '无',
+                                            'principal': info.principal,
+                                            'principalPhone': info.principalPhone,
+                                            'amount': info.amount,
+                                            'finalInspectionDate': info.finalInspectionDate,
+                                            'warrantyDate': info.warrantyDate
+                                        })
+                                        console.log(info.companyId)
+                                        if (info.companyId != null) {
+                                            $.get('/management/company/' + info.companyId, function (companyMsy) {
+                                                projectInfo[projectInfo.length - 1]['companyName'] = companyMsy.data['companyName']
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                            $.ajaxSettings.async = true;
+                            table.reload('currentTableId', {
+                                data: projectInfo
+                            })
+                        }
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                } else if (obj.event === 'delete') {  // 监听删除操作
+                    var checkStatus = table.checkStatus('currentTableId')
+                        , data = checkStatus.data;
+
+                    layer.alert(JSON.stringify(data));
+
+                    var $data = $(data)
+                    var res = new Array();
+
+                    //添加需要删除的列表
+                    $data.each(function (index) {
+                        res[index] = $(this)[0].projectId
+                    })
+
+                    $.post("/management/projects/deletes/",{"lists":res},function (r) {
+                        if (r.data == true){
+                            layer.msg("删除成功",function () {
+                                var projectInfo = []
+                                //多表查询 实现表格重载
+                                $.ajaxSettings.async = false;
+                                $.get('/management/project/all', function (res) {
+                                    if (res.code == 0) {
+                                        res.data.forEach(function (info) {
+                                            projectInfo.push({
+                                                'projectId': info.projectId,
+                                                'projectName': info.projectName,
+                                                'companyName': '无',
+                                                'principal': info.principal,
+                                                'principalPhone': info.principalPhone,
+                                                'amount': info.amount,
+                                                'finalInspectionDate': info.finalInspectionDate,
+                                                'warrantyDate': info.warrantyDate
+                                            })
+                                            console.log(info.companyId)
+                                            if (info.companyId != null) {
+                                                $.get('/management/company/' + info.companyId, function (companyMsy) {
+                                                    projectInfo[projectInfo.length - 1]['companyName'] = companyMsy.data['companyName']
+                                                })
+                                            }
+                                        })
+                                    }
+                                })
+                                $.ajaxSettings.async = true;
+                                table.reload('currentTableId', {
+                                    data: projectInfo
+                                })
+                            })
+                        }
+                    })
+                }
+            });
+
+
+            table.on('tool(currentTableFilter)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit') {
+                    var index = layer.open({
+                        title: '编辑项目',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/edit-project.html?id='+data.projectId,
+                        end: function () {
+                            var projectInfo = []
+                            //多表查询 实现表格重载
+                            $.ajaxSettings.async = false;
+                            $.get('/management/project/all', function (res) {
+                                if (res.code == 0) {
+                                    res.data.forEach(function (info) {
+                                        projectInfo.push({
+                                            'projectId': info.projectId,
+                                            'projectName': info.projectName,
+                                            'companyName': '无',
+                                            'principal': info.principal,
+                                            'principalPhone': info.principalPhone,
+                                            'amount': info.amount,
+                                            'finalInspectionDate': info.finalInspectionDate,
+                                            'warrantyDate': info.warrantyDate
+                                        })
+                                        console.log(info.projectId + " :"+ info.companyId)
+                                        if (info.companyId != null) {
+                                            $.get('/management/company/' + info.companyId, function (companyMsy) {
+                                                if(companyMsy.code == 0)
+                                                    projectInfo[projectInfo.length-1]['companyName'] = companyMsy.data['companyName']
+                                                else
+                                                    projectInfo[projectInfo.length-1]['companyName'] = '无'
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                            $.ajaxSettings.async = true;
+                            table.reload('currentTableId', {
+                                data: projectInfo
+                            })
+                        }
+                    });
+
+                    return false;
+                } else if (obj.event === 'delete') {
+                    layer.confirm('真的删除此项目吗', function (index) {
+                        $.ajax(
+                            {
+                                url: '/management/projects/delete/'+obj.data.projectId,
+                                type: "POST",
+                                contentType: "application/json;charset=UTF-8",
+                                success: function () {
+                                    layer.alert("success");
+                                    obj.del();
+                                },
+                                error: function () {
+                                    layer.alert("fail");
+
+                                }
+                            }
+                        )
+                        layer.close(index);
+                    });
+                }
+            });
+
+            //文件导入
+            upload.render({
+                elem: '#importFile'
+                , url: '/management/projects/upload' //改成您自己的上传接口
+                , accept: 'file' //普通文件
+                , done: function (res) {
+                    layer.msg('上传成功');
+                    console.log(res);
+                    var projectInfo = []
+                    //多表查询 实现表格重载
+                    $.ajaxSettings.async = false;
+                    $.get('/management/project/all', function (res) {
+                        if (res.code == 0) {
+                            res.data.forEach(function (info) {
+                                projectInfo.push({
+                                    'projectId': info.projectId,
+                                    'projectName': info.projectName,
+                                    'companyName': '无',
+                                    'principal': info.principal,
+                                    'principalPhone': info.principalPhone,
+                                    'amount': info.amount,
+                                    'finalInspectionDate': info.finalInspectionDate,
+                                    'warrantyDate': info.warrantyDate
+                                })
+                                console.log(info.projectId + " :" + info.companyId)
+                                if (info.companyId != null) {
+                                    $.get('/management/company/' + info.companyId, function (companyMsy) {
+                                        if (companyMsy.code == 0)
+                                            projectInfo[projectInfo.length - 1]['companyName'] = companyMsy.data['companyName']
+                                        else
+                                            projectInfo[projectInfo.length - 1]['companyName'] = '无'
+                                    })
+                                }
+                            })
+                        }
+                    })
+                    $.ajaxSettings.async = true;
+                    table.reload('currentTableId', {
+                        data: projectInfo
+                    })
+                }
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>

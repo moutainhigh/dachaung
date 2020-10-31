@@ -1,0 +1,23 @@
+{
+    "code": 0,
+    "msg": "",
+    "count": 1000,
+    "data": [
+      {
+        "id": "2020年1月",
+        "defect_description": "28"
+      },{
+        "id": "2020年2月",
+        "defect_description": "27"
+      },{
+        "id": "2020年3月",
+        "defect_description": "30"
+      },{
+        "id": "2020年4月",
+        "defect_description": "31"
+      },{
+        "id": "2020年5月",
+        "defect_description": "30"
+      }
+    ]
+  }

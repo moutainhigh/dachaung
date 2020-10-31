@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>可视化展示</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+
+    <style>
+        .layui-top-box {
+            padding: 40px 20px 20px 20px;
+            color: #fff
+        }
+
+        .panel {
+            margin-bottom: 17px;
+            background-color: #fff;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .05)
+        }
+
+        .panel-body {
+            padding: 15px
+        }
+
+        .panel-title {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: 14px;
+            color: inherit
+        }
+
+        .label {
+            display: inline;
+            padding: .2em .6em .3em;
+            font-size: 75%;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .25em;
+            margin-top: .3em;
+        }
+
+        .layui-red {
+            color: red
+        }
+
+        .main_btn>p {
+            height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <!--<div class="layuimini-container">-->
+    <div class="layuimini-main">
+        <!-- 统计汇总 -->
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md3">
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel layui-bg-cyan">
+                        <div class="panel-body">
+                            <div class="panel-title">
+                                <span class="label pull-right layui-bg-blue">实时</span>
+                                <h5>报单统计</h5>
+                            </div>
+                            <div class="panel-content">
+                                <h1 class="no-margins">1234</h1>
+                                <div class="stat-percent font-bold text-gray"><i class="fa fa-star"></i>
+                                </div>
+                                <small>当前分类总记录数</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md3">
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel layui-bg-blue">
+                        <div class="panel-body">
+                            <div class="panel-title">
+                                <span class="label pull-right layui-bg-cyan">实时</span>
+                                <h5>结案统计</h5>
+                            </div>
+                            <div class="panel-content">
+                                <h1 class="no-margins">1234</h1>
+                                <div class="stat-percent font-bold text-gray"><i class="fa fa-star"></i>
+                                </div>
+                                <small>当前分类总记录数</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md3">
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel layui-bg-green">
+                        <div class="panel-body">
+                            <div class="panel-title">
+                                <span class="label pull-right layui-bg-orange">实时</span>
+                                <h5>事件完成率</h5>
+                            </div>
+                            <div class="panel-content">
+                                <h1 class="no-margins">95%</h1>
+                                <div class="stat-percent font-bold text-gray"><i class="fa fa-star"></i>
+                                </div>
+                                <small>当前分类总记录数</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel layui-bg-orange">
+                        <div class="panel-body">
+                            <div class="panel-title">
+                                <span class="label pull-right layui-bg-green">实时</span>
+                                <h5>资产统计</h5>
+                            </div>
+                            <div class="panel-content">
+                                <h1 class="no-margins">1234.00元</h1>
+                                <div class="stat-percent font-bold text-gray"><i class="fa fa-star"></i>
+                                </div>
+                                <small>当前分类总记录数</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-xs12 layui-col-md3">
+                <!-- <div id="echarts-pies" style="background-color:#ffffff;min-height:400px;padding: 10px"></div> -->    
+                <div id="echarts-records" style="background-color:#ffffff;min-height:400px;padding: 10px"></div>
+            </div>
+            <div class="layui-col-xs12 layui-col-md6">
+                <div id="mapContainer" style="background-color:#ffffff;min-height:400px;padding: 10px;"></div>
+                <!-- <div id="echarts-records" style="background-color:#ffffff;min-height:400px;padding: 10px"></div> -->
+            </div>
+            <div class="layui-col-xs12 layui-col-md3">
+                <div id="echarts-dataset" style="background-color:#ffffff;min-height:400px;padding: 10px"></div>
+            </div>
+        </div>
+
+
+        <!-- <div class="layui-row layui-col-space15">
+        <div class="layui-col-xs12 layui-col-md6">
+            <div id="echarts-dataset" style="background-color:#ffffff;min-height:300px;padding: 10px"></div>
+        </div>
+        <div class="layui-col-xs12 layui-col-md6">
+            <div id="echarts-map" style="background-color:#ffffff;min-height:300px;padding: 10px"></div>
+        </div>
+    </div> -->
+
+    </div>
+    <!--</div>-->
+    <script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script>
+        layui.use(['layer', 'echarts'], function () {
+            var $ = layui.jquery,
+                layer = layui.layer,
+                echarts = layui.echarts;
+         /**
+         * 用户报单数量排名柱状图
+         */
+        var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
+        var optionRecords = {
+            title:{
+                text:"用户报单数量排名",
+                textStyle:{
+                    fontStyle:'normal',
+                    color:'#2B2B2B'
+                },
+                textAlign:'auto'
+            },
+            legend: {
+                right:10
+            },
+            tooltip: {
+                trigger:'axis',
+                formatter:'{a} : {c} '
+            },
+            dataset: {
+                dimensions:['姓名','2019'],
+                source:[
+                    ['姓名','2019'],
+                    ['张三','120'],
+                    ['李四','199'],
+                    ['王五','96'],
+                    ['赵六','76'],
+                    ['孙七','57'],
+                ]
+            },
+            xAxis: {
+                type: 'category',
+                name:"姓名"
+            },
+            yAxis: {
+                name:"报单数量"
+            },
+            series: [
+                {type:'bar'}
+            ]
+        };
+        echartsRecords.setOption(optionRecords);       
+        /**
+         * 年度维修设备柱状图
+         */
+        var echartsDataset = echarts.init(document.getElementById('echarts-dataset'), 'walden');
+        var optionDataset = {
+            title:{
+                text:"年度维修设备排名",
+                textStyle:{
+                    fontStyle:'normal',
+                    color:'#2B2B2B'
+                },
+                textAlign:'auto'
+            },
+            legend: {
+                right:10
+            },
+            tooltip: {
+                trigger:'axis',
+                formatter:'{a} : {c} '
+            },
+            dataset: {
+                dimensions:['设备名','2019'],
+                source:[
+                    ['设备名','2019'],
+                    ['001','3'],
+                    ['002','9'],
+                    ['003','1'],
+                    ['004','3'],
+                    ['005','6'],
+                    ['006','2'],
+                    ['007','3'],
+                    ['008','0'],
+                    ['009','4'],
+                    ['010','6'],
+                ]
+            },
+            xAxis: {
+                type: 'category',
+                name:"设备名"
+            },
+            yAxis: {
+                name:"设备维修次数"
+            },
+            // Declare several bar series, each will be mapped
+            // to a column of dataset.source by default.
+            series: [
+                {type: 'bar'}
+
+            ]
+        };
+        echartsDataset.setOption(optionDataset);
+            // echarts 窗口缩放自适应
+            window.onresize = function () {
+                echartsRecords.resize();
+            }
+
+        });
+    </script>
+
+
+    <!-- 腾讯地图API逻辑 -->
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=IGOBZ-P2JRP-GCVDW-LEVEL-QK5XF-KBFVT"></script>
+    <script>
+        var center = new qq.maps.LatLng(33.00, 112.52);
+        var map = new qq.maps.Map(document.getElementById("mapContainer"), {
+            // 地图的中心地理坐标。
+            center: center,
+            zoom: 13
+        });
+
+        //创建marker
+        var marker = new qq.maps.Marker({
+            position: center,
+            map: map,
+        });
+
+        //创建文本标记
+        var marker = new qq.maps.Label({
+            position: center,
+            map: map,
+            content: '故障点'
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>报单管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <style>
+        .layui-form-item{
+            margin-bottom: 0px;
+        }
+        .layui-inline{
+            margin-bottom: 5px;
+            margin-right: -10px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+            <fieldset class="table-search-fieldset">
+                <legend>搜索信息</legend>
+                <div style="margin: 10px 10px 10px 10px;">
+                    <form class="layui-form layui-form-pane" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">项目名称</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="project" name="project" autocomplete="off"
+                                        class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">报单人</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="person" name="reporterName" autocomplete="off"
+                                        class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">报单人单位</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="unit" name="reporterCompany" autocomplete="off"
+                                        class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">报单人电话</label>
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" id="" name="reporterPhone" type="text">
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">事件分类</label>
+                                <div class="layui-input-inline">
+                                    <select name="wrongType">
+                                        <option value="">故障分类</option>
+                                        <option value="前端设备故障" selected="">前端设备故障</option>
+                                        <option value="网络故障">网络故障</option>
+                                        <option value="链路故障">链路故障</option>
+                                        <option value="应用系统故障">应用系统故障</option>
+                                        <option value="硬件系统故障">硬件系统故障</option>
+                                        <option value="机房环境故障">机房环境故障</option>
+                                        <option value="基础设施故障">基础设施故障</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">事件紧急度</label>
+                                <div class="layui-input-inline">
+                                    <select name="level">
+                                        <option value="">事件紧急度</option>
+                                        <option value="危急故障－1小时内">危急故障－1小时内</option>
+                                        <option value="紧急故障－4小时内" selected="">紧急故障－4小时内 </option>
+                                        <option value="重要故障－8小时内" selected="">重要故障－8小时内</option>
+                                        <option value="一般故障－12小时内" selected="">一般故障－12小时内</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">事件类型</label>
+                                <div class="layui-input-inline">
+                                    <select name="eventType">
+                                        <option value="">事件类型</option>
+                                        <option value="故障处理" selected="">故障处理</option>
+                                        <option value="变更管理">变更管理</option>
+                                        <option value="备品备件">备品备件</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">时间范围</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="dateRange" class="layui-input" id="test5" placeholder="yyyy-MM-dd">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+        </div>
+            </fieldset>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+
+    </div>
+    </div>
+    <script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'table', 'laydate', 'tableSelect'], function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                table = layui.table,
+                tableSelect = layui.tableSelect;
+            var laydate = layui.laydate
+
+            //日期时间选择器
+            laydate.render({
+                elem: '#test5'
+                , type: 'date'
+                , range: true
+                ,format: 'yyyy/MM/dd'
+            });
+
+            tableSelect.render({
+                elem: '#project',
+                searchKey: 'my',
+                checkedKey: 'id',
+                searchPlaceholder: '自定义文字和name',
+                table: {
+                    url: '/management/project/all',
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'projectName', title: '项目', width: "100%" },
+                    ]]
+                },
+                done: function (elem, data) {
+                    var NEWJSON = []
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.projectName)
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+            })
+
+            tableSelect.render({
+                elem: '#unit',
+                searchKey: 'my',
+                checkedKey: 'id',
+                searchPlaceholder: '自定义文字和name',
+                table: {
+                    url: '/management/company/all',
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'companyName', title: '单位', width: 300 },
+                        { field: 'contactNumber', title: '联系电话', width: 300 }
+                    ]]
+                },
+                done: function (elem, data) {
+                    var NEWJSON = []
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.companyName)
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+            })
+
+            tableSelect.render({
+                elem: '#person',
+                searchKey: 'my',
+                checkedKey: 'id',
+                searchPlaceholder: '自定义文字和name',
+                table: {
+                    url: '/management/userCompany/all',
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'companyName', title: '单位', width: 300 },
+                        { field: 'name', title: '姓名', width: 100 },
+                        { field: 'phone', title: '联系电话', width: 300 }
+                    ]]
+                },
+                done: function (elem, data) {
+                    var NEWJSON = []
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.name)
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+            })
+
+
+            laydate.render({
+                elem: '#contract_date_select'
+            });
+            table.render({
+                elem: '#currentTableId',
+                url: '/management/events/option/1',
+                toolbar: '#toolbarDemo',
+                defaultToolbar: ['filter', 'exports', 'print', {
+                    title: '提示',
+                    layEvent: 'LAYTABLE_TIPS',
+                    icon: 'layui-icon-tips'
+                }],
+                //未调整表格百分比
+                cols: [[
+                    { type: "checkbox", width: "5%" },
+                    { field: 'eventId', width: "10%", title: '事件单号', sort: true },
+                    { field: 'defectDes', width: "15%", title: '事件描述' },
+                    { field: 'reporterCompany', width: "15%", title: '报单单位', sort: true },
+                    { field: 'reporterName', width: "10%", title: '报单人', sort: true },
+                    { field: 'reporterPhone', width: "10%", title: '报单人电话' },
+                    { field: 'reportTime', width: "10%", title: '报单时间', sort: true },
+                    { field: 'projectName', width: "10%", title: '项目名称', sort: true },
+                    { title: '操作', width: "15%", toolbar: '#currentTableBar', align: "center" }
+                ]],text: {
+                    none: '暂无待派单数据！！！'
+                },
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 15,
+                page: true,
+                skin: 'line',
+                parseData:function (res) {
+                    //使用报单人id,项目id,运维人id,模拟数据
+                    console.log(res)
+                    for (var i=0;i<res.data.length;i++){
+                        if (res.data[i].status == "1"){
+                            res.data[i].status = "未派单"
+                            res.data[i].maintenanceCompany="未派单,暂无信息"
+                            res.data[i].maintenancePhone="未派单,暂无信息"
+                        }else if (res.data[i].status == "2"){
+                            res.data[i].status = "已派单"
+                        }else if(res.data[i].status == "3"){
+                            res.data[i].status = "已完成"
+                        }else if (res.data[i].status == "4"){
+                            res.data[i].status = "已评价"
+                        }
+                    }
+                    return{
+                        "code":0,
+                        "data":res.data,
+                        "count":res.data.length,
+                        "limit": 10,
+                    }
+
+                }
+
+            });
+
+            // 监听搜索操作
+            form.on('submit(data-search-btn)', function (data) {
+                console.log(data)
+                var rspData = JSON.stringify(data.field)
+                console.log(rspData)
+                //在前端进行日期格式处理
+                data.field.beforeTime = data.field.dateRange.split("-")[0]
+                data.field.AfterTime = data.field.dateRange.split("-")[1]
+                delete data.field.dateRange
+
+                //表格的搜索重载
+                table.reload('currentTableId',{
+                    url:"/management/eventInfo/select/declaration?"+ $.param(data.field),
+                },'data')
+
+                return false;
+            });
+
+            /**
+             * toolbar监听事件
+             */
+            table.on('toolbar(currentTableFilter)', function (obj) {
+                console.log(obj.event)
+                if (obj.event === 'add') {  // 监听添加操作
+                    var index = layer.open({
+                        title: '添加报单',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/add-event-all.html?type=1&option=add',
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                } else if (obj.event === 'delete') {  // 监听删除操作
+                    var checkStatus = table.checkStatus('currentTableId')
+                        , data = checkStatus.data;
+                    var $data = $(data)
+                    var res = new Array();
+                    $data.each(function (index) {
+                        res[index] = $(this)[0].eventId
+                    })
+                    $.post("/management/events/f/deletes",{"lists":res},function (r) {
+                        if (r.data == true){
+                            layer.msg("删除成功",function () {
+                                table.reload('currentTableId')
+                            })
+                        }
+                    })
+                }
+            });
+            //监听表格复选框选择
+            table.on('checkbox(currentTableFilter)', function (obj) {
+                console.log(obj)
+            });
+
+            table.on('tool(currentTableFilter)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit') {
+                    var index = layer.open({
+                        title: '编辑用户',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/add-event-all.html?type=1&option=edit&id='+ data.eventId,
+                        end:function () {
+                            table.reload('currentTableId')
+                        }
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                    return false;
+                } else if (obj.event === 'delete') {
+                    layer.confirm('真的删除行么', function (index) {
+                        $.post('/management/events/f/delete/' + obj.data.eventId,function (res) {
+                            if (res.data === true){
+                                obj.del();
+                                layer.msg("删除成功",function () {
+                                    table.reload('currentTableId')
+                                })
+                            }else{
+                                layer.alert(res.message)
+                            }
+                            layer.close(index);
+                        })
+
+                    });
+                } else if (obj.event === 'judge') {
+                    console.log(11)
+                    var index = layer.open({
+                        title: '添加报单',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/judge-event-declaration.html',
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                }
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>

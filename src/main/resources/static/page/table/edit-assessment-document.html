@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>编辑考核文档</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <blockquote class="layui-elem-quote">考核文档</blockquote>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">上传人</label>
+        <div class="layui-input-block">
+            <input type="text" name="user" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入..." value="" class="layui-input" id="user">
+            <tip>请选择上传人</tip>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">项目名称</label>
+        <div class="layui-input-block">
+            <input type="text" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入..." value="" class="layui-input" id="project">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">内容概要</label>
+        <div class="layui-input-block">
+            <input type="text" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入..." value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text" style="width:1280px;">
+        <label class="layui-form-label">附件上传</label>
+        <div class="layui-upload">
+            <button type="button" class="layui-btn layui-btn-normal" id="test8">选择文件</button>
+            <button type="button" class="layui-btn" id="test9">开始上传</button>
+        </div>
+    </div>
+
+    <blockquote class="layui-elem-quote">审核</blockquote>
+
+    <div class="layui-form-item layui-form-text" style="width:1280px;">
+        <label class="layui-form-label">审核意见</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">审核状态</label>
+        <div class="layui-input-block">
+            <input type="text" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入..." value="" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">罚款</label>
+        <div class="layui-input-block">
+            <input type="text" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入..." value="" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text" style="width:1280px;">
+        <label class="layui-form-label">备注说明</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script>
+    layui.use(['form','table','upload','tableSelect'], function () {
+        var $ = layui.$,
+            form = layui.form,
+            upload = layui.upload,
+            table = layui.table,
+            tableSelect = layui.tableSelect;
+
+        tableSelect.render({
+            elem: '#user',
+            searchKey: 'my',
+            checkedKey: 'id',
+            searchPlaceholder: '上传人',
+            table: {
+                url: '../../api/tableSelect.json',
+                cols: [[
+                    { type: 'checkbox' },
+                    { field: 'id', title: 'ID', width: 100 },
+                    { field: 'username', title: '姓名', width: 300 },
+                    { field: 'sex', title: '性别', width: 100 }
+                ]]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.username)
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        });
+
+        tableSelect.render({
+                elem: '#project',
+                searchKey: 'my',
+                checkedKey: 'id',
+                searchPlaceholder: '项目名称',
+                table: {
+                    url: '../../api/tableSelect_project.json',
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'id', title: '项目', width: "100%" },
+                    ]]
+                },
+                done: function (elem, data) {
+                    var NEWJSON = []
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.id)
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+        });        
+
+        //选完文件后不自动上传
+        upload.render({
+                elem: '#test8'
+                , url: 'https://httpbin.org/post' //改成您自己的上传接口
+                , auto: false
+                //,multiple: true
+                , bindAction: '#test9'
+                , done: function (res) {
+                    layer.msg('上传成功');
+                    console.log(res)
+                }
+            });
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            var index = layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            }, function () {
+
+                // 关闭弹出层
+                layer.close(index);
+
+                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(iframeIndex);
+
+            });
+
+            return false;
+        });
+
+        
+
+    });
+
+    
+</script>
+</body>
+</html>

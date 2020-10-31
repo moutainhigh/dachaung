@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">项目名称</label>
+        <div class="layui-input-inline">
+            <input type="hidden" id="projectId" name="projectId">
+            <input type="tel" id="projectName" name="projectName" autocomplete="off"
+                   class="layui-input" value="">
+        </div>
+    </div>  ·
+    <div class="layui-form-item">
+        <label class="layui-form-label required">合同编号</label>
+        <div class="layui-input-block">
+            <input type="number" name="contractNo" lay-verify="required" lay-reqtext="合同编号不能为空"  value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">合同名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="contractName" placeholder="请输入合同名称" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">甲方</label>
+        <div class="layui-input-block">
+            <input type="text" id="partyA" name="partyA" placeholder="请输入甲方" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">乙方</label>
+        <div class="layui-input-block">
+            <input type="text" id="partyB" name="partyB" placeholder="请输入乙方" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">金额</label>
+        <div class="layui-input-block">
+            <input type="number" name="amount" placeholder="请输入金额" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">签订日期</label>
+        <div class="layui-input-block">
+            <input type="text" name="signingDate" placeholder="yyyy-MM-dd" value="" class="layui-input date" id="signingDate">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开始日期</label>
+        <div class="layui-input-block">
+            <input type="text" name="startDate" placeholder="yyyy-MM-dd" value="" class="layui-input date" id="startDate">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">截止日期</label>
+        <div class="layui-input-block">
+            <input type="text" name="deadline" placeholder="yyyy-MM-dd" value="" class="layui-input date" id="deadline">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">付款条件</label>
+        <div class="layui-input-block">
+            <textarea name="paymentTerms" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">合同简介</label>
+        <div class="layui-input-block">
+            <textarea name="contractIntroduction" class="layui-textarea" placeholder="请输入合同简介"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">合同文件</label>
+        <div class="layui-input-block">
+            <input type="file" id="file" name="file" style="display: none;">
+            <button type="button" class="layui-btn" id="fileBtn">
+                <i class="layui-icon">&#xe67c;</i>上传文件
+            </button>
+            <span id="filename"></span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">合同类型</label>
+        <div class="layui-input-block">
+            <select name="typeContract">
+                <option value="">合同分类</option>
+                <option value="施工合同" selected="">施工合同</option>
+                <option value="运营合同">运营合同</option>
+                <option value="其他合同">其他合同</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea name="remarks" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button id="saveBtn" class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script>
+    layui.use(['form','laydate','tableSelect','upload'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$,
+            laydate = layui.laydate,
+            tableSelect = layui.tableSelect,
+            upload = layui.upload;
+
+
+        //时间下拉菜单
+        lay('.date').each(function() {
+            laydate.render({
+                elem: this,
+                format: 'yyyy-MM-dd HH:mm:ss'
+            });
+        });
+
+        //contract upload
+        $('#fileBtn').click(function () {
+            $('#file').click()
+        })
+        $('#file').change(function (e) {
+            var file = e.target.files[0]
+            if (file != null) {
+                $('#filename').text(file.name)
+            }
+        })
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            var index = layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            }, function () {
+                var fileInput = $("#file")[0]
+                var formdata = new FormData();
+                $(':input').each(function (i, dom) {
+                    if (dom.name != 'file') {
+                        formdata.append(dom.name,dom.value)
+                    } else {
+                        if (fileInput.files[0] != null) {
+                            formdata.append('file', fileInput.files[0])
+                        }
+                    }
+                })
+
+                if (formdata.get('file')) {
+                    $.ajax({
+                        url: '/management/contracts/createWithFile',
+                        type: "POST",
+                        data: formdata,
+                        dataType: "JSON",
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        success: function () {
+                            layer.alert("success");
+                        },
+                        error: function () {
+                            layer.alert("filed");
+                        }
+                    })
+                } else {
+                    $.ajax({
+                        url: '/management/contracts/create',
+                        type: "POST",
+                        data: JSON.stringify(data.field),
+                        dataType: "JSON",
+                        contentType: 'application/json;charset=UTF-8',
+                        success: function () {
+                            layer.alert("success");
+                        },
+                        error: function () {
+                            layer.alert("filed");
+                        }
+                    })
+                }
+
+                // 关闭弹出层
+                layer.close(index);
+
+                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(iframeIndex);
+
+            });
+
+            return false;
+        });
+
+        //项目选择下拉框
+        tableSelect.render({
+            elem: '#projectName',
+            searchKey: 'projectName',
+            checkedKey: 'id',
+            searchPlaceholder: '请输入所需检索的项目名称',
+            table: {
+                url: '/management/project/all',
+                cols: [[
+                    { type: 'checkbox' },
+                    { field: 'projectId', title: '项目编号', width: "50%" },
+                    { field: 'projectName', title: '项目名称', width: "50%" },
+                ]]
+            },
+            done: function (elem, data) {
+                if (data.data.length !== 1) {
+                    layer.alert('只能选择一个建设单位')
+                } else {
+                    elem.val(data.data[0].projectName)
+                    $('#projectId').val(data.data[0].projectId)
+                }
+            }
+        })
+
+        //单位选择下拉框  甲方
+        tableSelect.render({
+            elem: '#partyA',
+            searchKey: 'companyName',
+            checkedKey: 'companyId',
+            searchPlaceholder: '请输入所需检索的项目名称',
+            table: {
+                url: '/management/company/all',
+                cols: [[
+                    { type: 'checkbox' },
+                    { field: 'companyId', title: '单位id', width: "50%" },
+                    { field: 'companyName', title: '单位名称', width: "50%" },
+                ]]
+            },
+            done: function (elem, data) {
+                if (data.data.length !== 1) {
+                    layer.alert('只能选择一个甲方')
+                } else {
+                    elem.val(data.data[0].companyName)
+                }
+            }
+        })
+
+        //单位选择下拉框  乙方
+        tableSelect.render({
+            elem: '#partyB',
+            searchKey: 'companyName',
+            checkedKey: 'companyId',
+            searchPlaceholder: '请输入所需检索的项目名称',
+            table: {
+                url: '/management/company/all',
+                cols: [[
+                    { type: 'checkbox' },
+                    { field: 'companyId', title: '单位id', width: "50%" },
+                    { field: 'companyName', title: '单位名称', width: "50%" },
+                ]]
+            },
+            done: function (elem, data) {
+                if (data.data.length !== 1) {
+                    layer.alert('只能选择一个乙方')
+                } else {
+                    elem.val(data.data[0].companyName)
+                }
+            }
+        })
+
+
+
+    });
+</script>
+</body>
+</html>

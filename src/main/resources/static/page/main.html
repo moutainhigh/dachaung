@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <link rel="stylesheet" href="../css/admin.css" media="all">
+    <style>
+        .layui-card {border:1px solid #f2f2f2;border-radius:5px;}
+        .icon {margin-right:10px;color:#1aa094;}
+        .icon-cray {color:#ffb800!important;}
+        .icon-blue {color:#1e9fff!important;}
+        .icon-tip {color:#ff5722!important;}
+        .layuimini-qiuck-module {text-align:center;margin-top: 10px}
+        .layuimini-qiuck-module a i {display:inline-block;width:100%;height:60px;line-height:60px;text-align:center;border-radius:2px;font-size:30px;background-color:#F8F8F8;color:#333;transition:all .3s;-webkit-transition:all .3s;}
+        .layuimini-qiuck-module a cite {position:relative;top:2px;display:block;color:#666;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size:14px;}
+        .welcome-module {width:100%;height:210px;}
+        .panel {background-color:#fff;border:1px solid transparent;border-radius:3px;-webkit-box-shadow:0 1px 1px rgba(0,0,0,.05);box-shadow:0 1px 1px rgba(0,0,0,.05)}
+        .panel-body {padding:10px}
+        .panel-title {margin-top:0;margin-bottom:0;font-size:12px;color:inherit}
+        .label {display:inline;padding:.2em .6em .3em;font-size:75%;font-weight:700;line-height:1;color:#fff;text-align:center;white-space:nowrap;vertical-align:baseline;border-radius:.25em;margin-top: .3em;}
+        .layui-red {color:red}
+        .main_btn > p {height:40px;}
+        .layui-bg-number {background-color:#F8F8F8;}
+        .layuimini-notice:hover {background:#f6f6f6;}
+        .layuimini-notice {padding:7px 16px;clear:both;font-size:12px !important;cursor:pointer;position:relative;transition:background 0.2s ease-in-out;}
+        .layuimini-notice-title,.layuimini-notice-label {
+            padding-right: 70px !important;text-overflow:ellipsis!important;overflow:hidden!important;white-space:nowrap!important;}
+        .layuimini-notice-title {line-height:28px;font-size:14px;}
+        .layuimini-notice-extra {position:absolute;top:50%;margin-top:-8px;right:16px;display:inline-block;height:16px;color:#999;}
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md6">
+                <div class="layui-row layui-col-space15">
+                    <!-- 待办事项 -->
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header"><i class="fa fa-fire icon"></i>待办事项</div>
+                            <div class="layui-card-body">
+                                <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+                                <script type="text/html" id="currentTableBar">
+                                    
+                                    {{#  if(d.isStatus == 1){ }}
+                                    <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-disabled layui-btn-danger" lay-event="none" id="edit">填写</a>
+                                    {{#  } else if(d.isStatus == 0){ }}
+                                    <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-danger" lay-event="edit" id="edit">填写</a>
+                                    {{#  } }}
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <!-- 通知公告 -->
+                <div class="layui-card" style="height: 336px;">
+                    <div class="layui-card-header"><i class="fa fa-bullhorn icon icon-tip"></i>通知公告</div>
+                    <div class="layui-card-body layui-text" id="noticeId">
+                    </div>
+                    <div style="text-align:center" id="page"></div>
+                </div>
+            </div>
+
+            <!-- 事件管理 -->
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header"><i class="fa fa-fire icon"></i>事件管理</div>
+                    <div class="layui-card-body">
+                        <table class="layui-hide" id="eventTableId" lay-filter="eventTableFilter"></table>
+                        <script type="text/html" id="eventTableBar">
+                            <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-blue" lay-event="edit" id="edit">编辑</a>
+                            <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-danger" lay-event="delete" id="delete">删除</a>
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+
+<script>
+    layui.use(['layer', 'miniTab','echarts','element','form','table','laypage'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            miniTab = layui.miniTab,
+            echarts = layui.echarts,
+            element = layui.element,
+            form = layui.form,
+            table = layui.table,
+            laypage = layui.laypage;
+        miniTab.listen();
+        //公告动态加载
+             $.ajax({
+                type: "get",
+                url: "../api/table_miannotice.json",
+                dataType: "json",
+                async: false,
+                success: function(data){
+                    laypage.render({
+                        elem: 'page' //注意，这里的 test1 是 ID，不用加 # 号
+                        ,count: data.data.length //数据总数，从服务端得到
+                        ,limit:5
+                        ,jump:function(obj){
+                            document.getElementById("noticeId").innerHTML = function(){
+                                var arr = [];
+                                var thisdata = data.data.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                                for (const key in thisdata) {
+                                    if (thisdata.hasOwnProperty(key)) {
+                                        const element = thisdata[key];
+                                        var domele =  "<div class='layuimini-notice'>"+
+                                        "<div class='layuimini-notice-title'>" + element.title + "</div>"+
+                                        "<div class='layuimini-notice-extra'> " +element.time + "</div>"+
+                                        "<div class='layuimini-notice-content layui-hide'> "+element.content+"</div></div>";
+                                        arr.push(domele);
+                                    }
+                                }
+                                return arr.join('');
+                            }();
+                        }
+                    });
+                }
+            });
+        /**
+         * 查看公告信息
+         **/
+        $('body').on('click', '.layuimini-notice', function () {
+            var title = $(this).children('.layuimini-notice-title').text(),
+                noticeTime = $(this).children('.layuimini-notice-extra').text(),
+                content = $(this).children('.layuimini-notice-content').html();
+            var html = '<div style="padding:15px 20px; text-align:justify; line-height: 22px;border-bottom:1px solid #e2e2e2;background-color: #2f4056;color: #ffffff">\n' +
+                '<div style="text-align: center;margin-bottom: 20px;font-weight: bold;border-bottom:1px solid #718fb5;padding-bottom: 5px"><h4 class="text-danger">' + title + '</h4></div>\n' +
+                '<div style="font-size: 12px">' + content + '</div>\n' +
+                '</div>\n';
+            parent.layer.open({
+                type: 1,
+                title: '通知公告'+'<span style="float: right;right: 1px;font-size: 12px;color: #b1b3b9;margin-top: 1px">'+noticeTime+'</span>',
+                area: '300px;',
+                shade: 0.8,
+                id: 'layuimini-notice',
+                btn: ['确定', '取消'],
+                btnAlign: 'c',
+                moveType: 1,
+                content:html,
+                success: function (layero) {
+                    // var btn = layero.find('.layui-layer-btn');
+                    // btn.find('.layui-layer-btn0').attr({
+                    //     href: '',
+                    //     target: '_blank'
+                    // });
+                    return layer.close();
+                }
+            });
+        });
+
+
+        /**
+         * 事件管理表格实现
+        */
+        table.render({
+            elem: '#eventTableId',
+            url: '../api/table_mainevent.json',
+            cols: [[
+                {field: 'id', width: "10%", title: '事件单号', sort: true},
+                {field: 'des', width:"15%", title: '事件描述'},
+                {field: 'unit', width: "15%", title: '运维单位', sort: true},
+                {field: 'tel', width: "15%", title: '运维人电话', sort: true},
+                {field: 'time', width: "15%", title: '报单时间', sort: true},
+                {field: 'name', width: "15%", title: '项目名称', sort: true},
+                {title: '操作', width: "15%", toolbar: '#eventTableBar', align: "center" ,minWidth:150}
+            ]],
+            limits: [10, 15, 20],
+            limit: 15,
+            page: true,
+            skin: 'line'
+        });
+        table.on('tool(eventTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'check') {
+                var index = layer.open({
+                    title: '事件审核',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: '../page/table/',
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }else if(obj.event === 'edit'){
+                var index = layer.open({
+                    title: '事件编辑',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: '../page/table/add-event-declaration.html',
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }else if(obj.event === 'delete'){
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            }
+        });
+  
+        /**
+         * 待办事项表格实现
+        */
+        table.render({
+            elem: '#currentTableId',
+            url: '../api/table_todo.json',
+            cols: [[
+                {field: 'id', width: "10%", title: 'ID', sort: true},
+                {field: 'name', width:"30%", title: '巡检计划名称'},
+                {field: 'time', width: "25%", title: '处理截止时间', sort: true},
+                {field:'isStatus',width:"20%",align:'center',title:'状态',templet:function(d){
+                    if(d.isStatus == 0){
+                        return '<span class="layui-badge layui-bg-gray">未处理</span>';
+                    }else if(d.isStatus == 1){
+                        return '<span class="layui-badge layui-bg-blue">已处理</span>';
+                    }
+                    
+                }},
+                {title: '操作', width: "15%", toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [10, 15, 20],
+            limit: 15,
+            page: true,
+            skin: 'line'
+        });
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                var index = layer.open({
+                    title: '巡检记录',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: '../page/table/edit-exam-record.html',
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }
+        });
+    });
+</script>
+</body>
+</html>

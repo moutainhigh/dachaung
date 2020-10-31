@@ -1,0 +1,25 @@
+{
+    "code": 0,
+    "msg": "",
+    "count": 1,
+    "data": [
+        { 
+            "id":"001",
+            "assets_name":"数据中心核心交换机",
+            "model":"CE12808",
+            "number":"2台"
+        },
+        { 
+            "id":"002",
+            "assets_name":"核心交换机",
+            "model":"CE12808",
+            "number":"2台"
+        },
+        { 
+            "id":"003",
+            "assets_name":"网络核心交换机",
+            "model":"CE12808",
+            "number":"2台"
+        }
+    ]
+}

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>项目管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <style>
+        .layui-form-item {
+            margin-bottom: 0px;
+        }
+
+        .layui-inline {
+            margin-bottom: 5px;
+            margin-right: -10px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+            <fieldset class="table-search-fieldset">
+                <legend>搜索信息</legend>
+                <div style="margin: 10px 10px 10px 10px">
+                    <form class="layui-form layui-form-pane" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">项目名称</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="project" name="username" autocomplete="off"
+                                        class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">承建单位</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="city" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">进展状态</label>
+                                <div class="layui-input-inline">
+                                    <select name="city" lay-verify="">
+                                        <option value="">进展阶段</option>
+                                        <option value="010">勘查点位确认</option>
+                                        <option value="021">基坑开挖浇筑</option>
+                                        <option value="0571">人手井</option>
+                                        <option value="0571">立杆</option>
+                                        <option value="0571">线路铺设</option>
+                                        <option value="0571">设备安装</option>
+                                        <option value="0571">通电</option>
+                                        <option value="0571">光纤熔接通讯联通</option>
+                                        <option value="0571">点位信息备案</option>
+                                        <option value="0571">试运行</option>
+                                        <option value="0571">验收</option>
+                                        <option value="0571">运维</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">资产核查</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="city" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">点位变更</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="city" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label layui-form-label-left">时间范围</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="test5" placeholder="yyyy-MM-dd">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-line">
+                                <fieldset class="layui-elem-field layui-field-title" style="font-size: 14px;margin-bottom: 10px;">
+                                    <legend style="font-size: 14px;">项目完成度</legend>
+                                  </fieldset>
+                                <div class="layui-progress layui-progress-big" lay-showPercent="yes"
+                                    style="width: 50%;">
+                                    <div class="layui-progress-bar layui-bg-green" lay-percent="50%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                </div>
+                </form>
+        </div>
+        </fieldset>
+
+        <!-- <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+            </div>
+        </script> -->
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs data-count-edit" lay-event="check">审核</a>
+        </script>
+
+    </div>
+    </div>
+    <script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'table', 'tableSelect', 'laydate','element'], function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                table = layui.table;
+                tableSelect = layui.tableSelect,
+                element = layui.element,
+                laydate = layui.laydate;
+
+           
+
+            //日期时间选择器
+            laydate.render({
+                elem: '#test5'
+                , type: 'date'
+                , range: true
+            });
+
+            tableSelect.render({
+                elem: '#project',
+                searchKey: 'my',
+                checkedKey: 'id',
+                searchPlaceholder: '自定义文字和name',
+                table: {
+                    url: '../api/tableSelect_project.json',
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'id', title: '项目', width: "100%" },
+                    ]]
+                },
+                done: function (elem, data) {
+                    var NEWJSON = []
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.id)
+                    })
+                    elem.val(NEWJSON.join(","))
+                }
+            })
+
+
+            table.render({
+                elem: '#currentTableId',
+                url: '../api/table_implementation_management.json',
+                defaultToolbar: ['filter', 'exports', 'print', {
+                    title: '提示',
+                    layEvent: 'LAYTABLE_TIPS',
+                    icon: 'layui-icon-tips'
+                }],
+                cols: [[
+                    { type: "checkbox", width: '5%' },
+                    { field: 'id', width: '10%', title: '点位编号', sort: true, event: 'Setid', style: 'cursor: pointer;' },
+                    { field: 'projectManager', width: "15%", title: '地址', sort: true },
+                    { field: 'projectManager', width: "15%", title: '所属片区', sort: true },
+                    { field: 'projectname', width: '15%', title: '项目名称' },
+                    { field: 'constructionUnit', width: '15%', title: '承建单位' },
+                    { field: 'stage', width: "10%", title: '进度状态', minWidth: 120 },
+                    { title: '操作', width: "15%", toolbar: '#currentTableBar', align: "center" }
+                ]],
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 15,
+                page: true,
+                skin: 'line'
+            });
+
+             //监听单元格事件
+             table.on('tool(currentTableFilter)', function (obj) {
+                var data = obj.data;
+                console.log(obj)
+               
+            });
+
+            // 监听搜索操作
+            form.on('submit(data-search-btn)', function (data) {
+                var result = JSON.stringify(data.field);
+                layer.alert(result, {
+                    title: '最终的搜索信息'
+                });
+
+                //执行搜索重载
+                table.reload('currentTableId', {
+                    page: {
+                        curr: 1
+                    }
+                    , where: {
+                        searchParams: result
+                    }
+                }, 'data');
+
+                return false;
+            });
+
+            /**
+             * toolbar监听事件
+             */
+            table.on('toolbar(currentTableFilter)', function (obj) {
+                if (obj.event === 'add') {  // 监听添加操作
+                    var index = layer.open({
+                        title: '添加项目',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/add-implementation-management.html',
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                } else if (obj.event === 'delete') {  // 监听删除操作
+                    var checkStatus = table.checkStatus('currentTableId')
+                        , data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                }
+            });
+            project.html
+            //监听表格复选框选择
+            table.on('checkbox(currentTableFilter)', function (obj) {
+                console.log(obj)
+            });
+
+            table.on('tool(currentTableFilter)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit') {
+
+                    var index = layer.open({
+                        title: '编辑项目',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/edit-implementation-management.html',
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                    return false;
+                } else if (obj.event === 'delete') {
+                    layer.confirm('真的删除此项目吗', function (index) {
+                        obj.del();
+                        layer.close(index);
+                    });
+                } else if (obj.event === 'check') {
+                    var index = layer.open({
+                        title: '审查项目',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/check-implementation-management.html',
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                    return false;
+                }else  if (obj.event === 'Setid') {
+                    var index = layer.open({
+                        title: '审查项目',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../page/table/image-process.html',
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                    return false;
+                }
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+.layui-nav.layui-layout-left.layuisun-header-menu.layuisun-pc-show {
+    font-weight: bold;
+    transition: all .2s;
+}
+
+/**头部菜单字体间距*/
+.layui-layout-admin .layui-header .layuisun-header-menu.layuisun-pc-show,.layui-layout-admin .layui-header .layuisun-header-menu.layuisun-mobile-show {
+    letter-spacing: 1px;
+}
+
+
+/**
+ PC版样式
+ */
+ @media screen and (min-width: 1025px) {
+    /**头部样式（缩放） */
+    .layuisun-mini .layui-layout-left.layuisun-header-menu.layuisun-pc-show {
+        left: 155px !important;
+    }
+
+    .layuisun-pc-show{
+        display: block;
+    }
+    .layuisun-mobile-show{
+        display: none;
+    }
+}
+
+/**
+ 手机自适应样式
+*/
+@media screen and (max-width: 1024px) {
+    .layuisun-pc-show{
+        display: none;
+    }
+    .layuisun-mobile-show{
+        display: block;
+    }
+
+}

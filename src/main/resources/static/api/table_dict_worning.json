@@ -1,0 +1,33 @@
+{
+    "code": 0,
+    "msg": "",
+    "count": 1000,
+    "data": [
+      {
+        "id": "0001",
+        "assetsname": "危急故障 - 1小时内",
+        "assetsdes": "路灯故障仪器更换",
+        "hour": "1",
+        "minutes":"0"
+      },{
+        "id": "0002",
+        "assetsname": "紧急故障 - 4小时内",
+        "assetsdes": "路灯故障树叶遮挡",
+        "hour": "4",
+        "minutes":"0"
+        
+      },{
+        "id": "0003",
+        "assetsname": "重要故障 - 8小时内",
+        "assetsdes": "路灯故障损坏",
+        "hour": "8",
+        "minutes":"0"
+      },{
+        "id": "0004",
+        "assetsname": "一般故障 - 12小时内",
+        "assetsdes": "路灯故障电路故障",
+        "hour": "12",
+        "minutes":"0"
+      }
+    ]
+  }

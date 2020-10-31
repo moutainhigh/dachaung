@@ -1,0 +1,21 @@
+{
+    "code": 0,
+    "msg": "",
+    "count": 1000,
+    "data": [
+      {
+        "id": 10000,
+        "announcement_name": "平台使用方法",
+        "announcement": "1.xxx;2.xxx,3.xxx...",
+        "publish_time": "2020-05-01",
+        "publish_man": "江鸟"
+      },
+      {
+        "id": 10000,
+        "announcement_name": "平台使用方法",
+        "announcement": "1.xxx;2.xxx,3.xxx...",
+        "publish_time": "2020-05-01",
+        "publish_man": "林雨"
+      }
+    ]
+}
